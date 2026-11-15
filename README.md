@@ -11,6 +11,9 @@
 - 平台：Windows 10/11 x64
 - 默认分支：`main`
 - 稳定版 Release：<https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.0.0>
+- Windows ZIP：`KeyFlowStudioLite-1.0.0-win-x64.zip`（51,911,083 bytes）
+- SHA256：`f9e33e319f725fbc94d85d73657de878f2f930f869276d2d0b0032936f9f7a90`
+- 新仓库 Release Actions：[43727898613](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/43727898613) SUCCESS，7/7 Core tests，0 warnings/errors。
 - 项目交接：[`docs/SESSION-HANDOFF.md`](docs/SESSION-HANDOFF.md)
 - 自动化开发规则：[`AGENTS.md`](AGENTS.md)
 

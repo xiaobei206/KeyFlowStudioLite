@@ -72,3 +72,13 @@
 - ZIP / SHA256：PASS
 - Actions artifact upload：PASS，artifact ID `14167530220`
 - 此为自动化验证；第 5 节实机项目仍保持 NOT RUN。
+
+
+## 8. 新仓库正式 Release 验证（2026-11-15）
+
+- Release：<https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.0.0>，ID `446142271`，prerelease=false。
+- Actions run：[43727898613](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/43727898613) — SUCCESS。
+- Build：0 warnings / 0 errors；Core tests：7/7 PASS。
+- Self-contained publish、ZIP/SHA、artifact upload、GitHub Release 创建：全部 PASS。
+- ZIP：`KeyFlowStudioLite-1.0.0-win-x64.zip`，51,911,083 bytes；SHA256 `f9e33e319f725fbc94d85d73657de878f2f930f869276d2d0b0032936f9f7a90`。
+- 实际桌面键鼠 Hook、DPI/多屏、托盘/退出与长时间稳定性仍须用户 Windows 10/11 实机验收，保持 NOT RUN。

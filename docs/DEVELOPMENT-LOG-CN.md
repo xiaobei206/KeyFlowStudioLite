@@ -286,3 +286,13 @@ TV-01：Lua 5.4 / .NET 10 绑定与中断机制 PoC。
 - 新仓库 Windows Actions run [43727695106](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/43727695106) SUCCESS：0 Build warnings、0 errors、7/7 Core tests、self-contained win-x64 publish、ZIP/SHA 与 artifact upload 全 PASS。
 - Actions artifact ID `14167530220`，外层归档 51,740,914 bytes，digest `sha256:b38bd54e38d85080bd396db81a1e23c539cb7d3562a7ad52fa686f1f23d999cd`。
 - 新仓库正式 `v1.0.0` Release 将由独立的 release commit 触发；未经核对 Release API 与资产清单前，不得声称已发布。
+
+
+## 2026-11-15 — KeyFlow Studio Lite v1.0.0 新仓库正式发布
+
+- Release：<https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.0.0>，Release ID `446142271`，正式稳定版，prerelease=false。
+- Release commit：`909559341cf7d749f4a151219a175c716db37af5`。
+- Windows Actions run [43727898613](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/43727898613) SUCCESS：Restore、Build（0 warnings / 0 errors）、7/7 Core tests、self-contained win-x64 publish、ZIP/SHA、artifact upload、Release creation 全 PASS。
+- 发布 ZIP：`KeyFlowStudioLite-1.0.0-win-x64.zip`，51,911,083 bytes；SHA256 `f9e33e319f725fbc94d85d73657de878f2f930f869276d2d0b0032936f9f7a90`。
+- SHA sidecar：`KeyFlowStudioLite-1.0.0-win-x64.zip.sha256`。
+- 新仓库完成源码迁移与 1.0.0 发布；下一阶段按 handoff 执行 M1 基线核验和稳定性补强。
