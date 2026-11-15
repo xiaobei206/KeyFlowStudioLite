@@ -307,6 +307,9 @@ TV-01：Lua 5.4 / .NET 10 绑定与中断机制 PoC。
 - 更新 README、协作入口、交接、路线图、发布流程、用户手册、功能矩阵和验收项目。
 
 ### 验证
-- Windows Actions：待本次提交后执行。
-- 自动化测试：待 Windows runner 执行。
-- Windows 10/11 实机悬浮窗布局、Hook、DPI/多屏、托盘验收：NOT RUN。
+- Windows Actions [43729901294](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/43729901294)：SUCCESS。
+- Restore / Build：PASS，0 warnings / 0 errors；Core tests：7/7 PASS。
+- self-contained win-x64 publish、ZIP/SHA256、Artifact upload、Release creation：全部 PASS。
+- 正式 Release：<https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.0.1>，prerelease=false。
+- ZIP：`KeyFlowStudioLite-1.0.1-win-x64.zip`，51,911,747 bytes；SHA256：`19becd2a22f896126e6dfad39ef38ee6e7a755d006a6ea3e5911292efd12af42`。
+- Windows 10/11 实机悬浮窗布局、数据迁移、Hook、DPI/多屏、托盘验收：NOT RUN。

@@ -35,7 +35,7 @@
 ## 4. 版本与发布规约
 
 - `VERSION`、`PRODUCT_NAME`、`PRODUCT_ID`、`src/KeyFlow.App/KeyFlow.App.csproj` 的版本必须一致。
-- 当前稳定基线为 `1.0.0`。下一次正式/预发布版本必须按 SemVer 递增，例如 `1.0.1` 或 `1.1.0-preview.1`；禁止重复覆盖同版本来伪装修复。
+- 当前稳定基线为 `1.0.1`。下一次正式/预发布版本必须按 SemVer 递增，例如 `1.0.2` 或 `1.1.0-preview.1`；禁止重复覆盖同版本来伪装修复。
 - 只有在 Windows Actions 构建、测试、打包和 SHA256 均通过后才允许发布。
 - Release ZIP 必须包含所有 self-contained 伴随文件；同时发布 `.sha256` sidecar。
 - Release 标签使用 `vX.Y.Z`；提交信息使用 `release: vX.Y.Z <purpose>` 触发发布 workflow。

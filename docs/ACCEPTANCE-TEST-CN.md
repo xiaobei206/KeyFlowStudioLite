@@ -93,5 +93,14 @@
 | K03 | 悬浮窗设置区 | 循环次数、无限提示、轮间隔、只录点击、X/Y 坐标完整显示 | Windows 实机 | NOT RUN |
 | K04 | 旧数据导入 | 首次启动将旧目录中缺失脚本/设置复制到新目录 | Windows 集成 | NOT RUN |
 | K05 | 数据不覆盖 | 新目录存在同名文件时保持新文件，旧源文件不删除 | 单元/集成 | NOT RUN |
-| K06 | 新应用身份 | 输出为 KeyFlowStudioLite.exe，项目/命名空间无旧开发代号 | Windows CI + 源码检查 | PENDING |
+| K06 | 新应用身份 | 输出为 KeyFlowStudioLite.exe，项目/命名空间无旧开发代号 | Windows CI + 源码检查 | PASS |
 
+
+
+## 1.0.1 CI 结果
+
+- Actions run： [43729901294](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/43729901294) — PASS。
+- Restore / Build：PASS；Build 0 warnings / 0 errors。
+- Core tests：7/7 PASS。
+- Self-contained win-x64 publish、ZIP/SHA256、Artifact upload、Release creation：PASS。
+- K01-K05 涉及 GUI 实际布局、数据迁移与用户目录操作，尚未在用户 Windows 实机执行，继续保持 NOT RUN。
