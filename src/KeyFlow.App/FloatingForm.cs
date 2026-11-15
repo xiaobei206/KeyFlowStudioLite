@@ -1,6 +1,6 @@
-using Anjian.Core;
+using KeyFlow.Core;
 
-namespace Anjian.App;
+namespace KeyFlow.App;
 
 internal sealed class FloatingForm : Form
 {
@@ -44,9 +44,9 @@ internal sealed class FloatingForm : Form
         AutoScaleDimensions = new SizeF(96F, 96F);
         ShowInTaskbar = false;
         StartPosition = FormStartPosition.Manual;
-        ClientSize = new Size(640, 124);
-        MinimumSize = new Size(640, 124);
-        MaximumSize = new Size(640, 124);
+        ClientSize = new Size(500, 124);
+        MinimumSize = new Size(500, 124);
+        MaximumSize = new Size(500, 124);
         BackColor = Color.FromArgb(245, 247, 250);
         Font = new Font("Microsoft YaHei UI", 9F);
         BuildUi();
@@ -59,7 +59,7 @@ internal sealed class FloatingForm : Form
         _coordinateTimer.Tick += (_, _) =>
         {
             var p = Cursor.Position;
-            _coordinatesLabel.Text = $"X {p.X}   Y {p.Y}";
+            _coordinatesLabel.Text = $"X {p.X}  Y {p.Y}";
         };
         _coordinateTimer.Start();
     }
@@ -71,7 +71,7 @@ internal sealed class FloatingForm : Form
             Dock = DockStyle.Fill,
             ColumnCount = 1,
             RowCount = 3,
-            Padding = new Padding(9, 6, 9, 6),
+            Padding = new Padding(7, 6, 7, 6),
             BackColor = BackColor
         };
         root.RowStyles.Add(new RowStyle(SizeType.Absolute, 31));
@@ -88,35 +88,35 @@ internal sealed class FloatingForm : Form
         };
         var brand = new Label
         {
-            Text = "KeyFlow Studio Lite",
+            Text = "KeyFlow",
             AutoSize = true,
             Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold),
             ForeColor = Color.FromArgb(28, 50, 82),
-            Margin = new Padding(1, 4, 12, 0)
+            Margin = new Padding(1, 4, 8, 0)
         };
         _scriptLabel.AutoSize = false;
-        _scriptLabel.Width = 155;
+        _scriptLabel.Width = 108;
         _scriptLabel.Height = 26;
         _scriptLabel.AutoEllipsis = true;
         _scriptLabel.Text = "脚本：未选择";
         _scriptLabel.TextAlign = ContentAlignment.MiddleLeft;
         _scriptLabel.ForeColor = Color.FromArgb(70, 83, 101);
-        _scriptLabel.Margin = new Padding(0, 1, 8, 0);
+        _scriptLabel.Margin = new Padding(0, 1, 4, 0);
         _statusLabel.AutoSize = true;
         _statusLabel.Text = "就绪";
         _statusLabel.ForeColor = Color.FromArgb(20, 128, 104);
         _statusLabel.Font = new Font(Font, FontStyle.Bold);
-        _statusLabel.Margin = new Padding(0, 5, 10, 0);
+        _statusLabel.Margin = new Padding(0, 5, 4, 0);
 
-        var openMain = MakeButton("完整界面 ↗", 86);
+        var openMain = MakeButton("完整界面 ↗", 78);
         openMain.Click += (_, _) => OpenMainRequested?.Invoke();
         _topmostButton.Text = "置顶";
         _topmostButton.AutoSize = false;
-        _topmostButton.Width = 52;
+        _topmostButton.Width = 48;
         _topmostButton.Height = 27;
         _topmostButton.Margin = new Padding(2, 0, 2, 0);
         _topmostButton.Click += (_, _) => AlwaysOnTopChanged?.Invoke(!TopMost);
-        var hide = MakeButton("×", 30);
+        var hide = MakeButton("×", 28);
         hide.Click += (_, _) => HideRequested?.Invoke();
 
         header.Controls.Add(brand);
@@ -139,33 +139,33 @@ internal sealed class FloatingForm : Form
             Padding = Padding.Empty
         };
         _recordButton.Text = "● 开始录制";
-        _recordButton.Width = 112;
+        _recordButton.Width = 88;
         _recordButton.Height = 30;
         _recordButton.Click += (_, _) => RecordToggleRequested?.Invoke();
         actions.Controls.Add(_recordButton);
 
         _stopRecordButton.Text = "■ 结束录制";
-        _stopRecordButton.Width = 102;
+        _stopRecordButton.Width = 86;
         _stopRecordButton.Height = 30;
         _stopRecordButton.Enabled = false;
         _stopRecordButton.Click += (_, _) => StopRecordingRequested?.Invoke();
         actions.Controls.Add(_stopRecordButton);
 
         _playButton.Text = "▶ 播放";
-        _playButton.Width = 82;
+        _playButton.Width = 66;
         _playButton.Height = 30;
         _playButton.Click += (_, _) => PlayRequested?.Invoke();
         actions.Controls.Add(_playButton);
 
         _pauseButton.Text = "Ⅱ 暂停";
-        _pauseButton.Width = 82;
+        _pauseButton.Width = 66;
         _pauseButton.Height = 30;
         _pauseButton.Enabled = false;
         _pauseButton.Click += (_, _) => PauseRequested?.Invoke();
         actions.Controls.Add(_pauseButton);
 
         _stopButton.Text = "■ 停止";
-        _stopButton.Width = 82;
+        _stopButton.Width = 66;
         _stopButton.Height = 30;
         _stopButton.Enabled = false;
         _stopButton.Click += (_, _) => StopPlaybackRequested?.Invoke();
@@ -179,33 +179,33 @@ internal sealed class FloatingForm : Form
             Margin = Padding.Empty,
             Padding = Padding.Empty
         };
-        settings.Controls.Add(new Label { Text = "循环次数", AutoSize = true, Margin = new Padding(2, 7, 4, 0) });
+        settings.Controls.Add(new Label { Text = "循环", AutoSize = true, Margin = new Padding(2, 7, 2, 0) });
         _repeatCount.Minimum = 0;
         _repeatCount.Maximum = PlaybackOptions.MaximumRepeatCount;
         _repeatCount.Value = 1;
-        _repeatCount.Width = 78;
+        _repeatCount.Width = 54;
         _repeatCount.Margin = new Padding(0, 2, 2, 0);
         _repeatCount.ValueChanged += (_, _) =>
         {
             if (!_syncing) RepeatCountChanged?.Invoke((int)_repeatCount.Value);
         };
         settings.Controls.Add(_repeatCount);
-        settings.Controls.Add(new Label { Text = "0=无限", AutoSize = true, ForeColor = Color.FromArgb(95, 108, 125), Margin = new Padding(2, 7, 12, 0) });
+        settings.Controls.Add(new Label { Text = "0=∞", AutoSize = true, ForeColor = Color.FromArgb(95, 108, 125), Margin = new Padding(2, 7, 6, 0) });
 
-        settings.Controls.Add(new Label { Text = "轮间隔(ms)", AutoSize = true, Margin = new Padding(0, 7, 4, 0) });
+        settings.Controls.Add(new Label { Text = "间隔", AutoSize = true, Margin = new Padding(0, 7, 3, 0) });
         _repeatInterval.Minimum = 0;
         _repeatInterval.Maximum = PlaybackOptions.MaximumIntervalMilliseconds;
         _repeatInterval.Increment = 100;
         _repeatInterval.Value = 2_000;
-        _repeatInterval.Width = 82;
-        _repeatInterval.Margin = new Padding(0, 2, 8, 0);
+        _repeatInterval.Width = 66;
+        _repeatInterval.Margin = new Padding(0, 2, 4, 0);
         _repeatInterval.ValueChanged += (_, _) =>
         {
             if (!_syncing) RepeatIntervalChanged?.Invoke((int)_repeatInterval.Value);
         };
         settings.Controls.Add(_repeatInterval);
 
-        _clickOnlyCheck.Margin = new Padding(4, 5, 0, 0);
+        _clickOnlyCheck.Margin = new Padding(2, 5, 0, 0);
         _clickOnlyCheck.CheckedChanged += (_, _) =>
         {
             if (!_syncing) ClickOnlyRecordingChanged?.Invoke(_clickOnlyCheck.Checked);
@@ -215,7 +215,7 @@ internal sealed class FloatingForm : Form
         _coordinatesLabel.AutoSize = true;
         _coordinatesLabel.Font = new Font("Consolas", 9F, FontStyle.Bold);
         _coordinatesLabel.ForeColor = Color.FromArgb(44, 82, 130);
-        _coordinatesLabel.Margin = new Padding(12, 7, 0, 0);
+        _coordinatesLabel.Margin = new Padding(6, 7, 0, 0);
         settings.Controls.Add(_coordinatesLabel);
 
         root.Controls.Add(header, 0, 0);

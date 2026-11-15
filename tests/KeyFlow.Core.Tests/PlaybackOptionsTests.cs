@@ -1,7 +1,7 @@
-using Anjian.Core;
+using KeyFlow.Core;
 using Xunit;
 
-namespace Anjian.Core.Tests;
+namespace KeyFlow.Core.Tests;
 
 public sealed class PlaybackOptionsTests
 {

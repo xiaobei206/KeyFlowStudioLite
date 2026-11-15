@@ -1,13 +1,11 @@
 using System.Text.Json;
-using Anjian.App.Models;
+using KeyFlow.App.Models;
 
-namespace Anjian.App.Services;
+namespace KeyFlow.App.Services;
 
 public sealed class AppSettingsStore
 {
-    private readonly string _path = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "Anjian2026", "settings.json");
+    private readonly string _path = AppDataPaths.SettingsPath;
 
     public AppSettings Load()
     {

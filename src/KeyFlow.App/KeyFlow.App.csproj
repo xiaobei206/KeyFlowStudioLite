@@ -1,20 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <AssemblyName>KeyFlowStudioLite</AssemblyName>
+    <RootNamespace>KeyFlow.App</RootNamespace>
+    <Product>KeyFlow Studio Lite</Product>
+    <FileDescription>KeyFlow Studio Lite</FileDescription>
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <ApplicationIcon>Resources\Anjian2026.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\KeyFlowStudioLite.ico</ApplicationIcon>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
-    <Version>1.0.0</Version>
-    <AssemblyVersion>0.1.0.0</AssemblyVersion>
-    <FileVersion>0.1.0.0</FileVersion>
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Anjian.Core\Anjian.Core.csproj" />
+    <ProjectReference Include="..\KeyFlow.Core\KeyFlow.Core.csproj" />
     <PackageReference Include="NLua" Version="1.7.9" />
   </ItemGroup>
 </Project>

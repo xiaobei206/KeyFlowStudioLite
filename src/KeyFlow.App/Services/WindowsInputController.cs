@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Anjian.App.Services;
+namespace KeyFlow.App.Services;
 
 internal sealed class WindowsInputController
 {

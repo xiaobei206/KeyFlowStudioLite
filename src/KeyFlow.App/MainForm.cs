@@ -1,8 +1,8 @@
-using Anjian.App.Models;
-using Anjian.App.Services;
-using Anjian.Core;
+using KeyFlow.App.Models;
+using KeyFlow.App.Services;
+using KeyFlow.Core;
 
-namespace Anjian.App;
+namespace KeyFlow.App;
 
 internal sealed class MainForm : Form
 {

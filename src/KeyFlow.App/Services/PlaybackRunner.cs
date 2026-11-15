@@ -2,9 +2,9 @@ using System.Diagnostics;
 using System.IO.Pipes;
 using System.Text;
 using System.Text.Json;
-using Anjian.Core;
+using KeyFlow.Core;
 
-namespace Anjian.App.Services;
+namespace KeyFlow.App.Services;
 
 internal sealed class PlaybackRunner : IDisposable
 {
@@ -77,7 +77,7 @@ internal sealed class PlaybackRunner : IDisposable
 
     private async Task RunOneAsync(string scriptPath, CancellationToken token)
     {
-        var pipeName = "Anjian2026_" + Guid.NewGuid().ToString("N");
+        var pipeName = "KeyFlowStudioLite_" + Guid.NewGuid().ToString("N");
         await using var server = new NamedPipeServerStream(pipeName, PipeDirection.InOut, 1,
             PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
         var executable = Environment.ProcessPath ?? throw new InvalidOperationException("无法定位当前程序路径。");

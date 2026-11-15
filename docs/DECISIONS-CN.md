@@ -106,3 +106,12 @@
 - 决策：Lite 1.0.0 源码独立维护于 xiaobei206/KeyFlowStudioLite，产品名为 KeyFlow Studio Lite。
 - 原因：Lite 与完整开发版分开演进，避免高级功能和产品依赖混入轻量稳定基线。
 - 兼容：内部 Anjian2026.sln、Anjian.App.exe、%LOCALAPPDATA%\\Anjian2026 数据目录和现有 Lua API 暂时保持不变。
+
+
+## D-1.0.1 — 统一 KeyFlow 内部身份与非破坏性数据迁移（2026-11-15）
+
+- 解决方案、项目目录、程序集、命名空间、应用程序和 Worker IPC 名称统一使用 KeyFlow。
+- 新数据根目录为 `%LOCALAPPDATA%\\KeyFlowStudioLite`。
+- 为避免升级 1.0.0 时丢失脚本和设置，启动时把旧目录里目标目录不存在的文件复制到新目录；永不覆盖目标已有文件，不删除旧目录。
+- 旧路径只作为一次性兼容迁移来源，不再用于新版本写入。
+- 悬浮窗宽度固定 500 px；通过压缩行内控件间距与宽度保持按钮和设置完整可见。

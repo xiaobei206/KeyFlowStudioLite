@@ -1,5 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <AssemblyName>KeyFlow.Core.Tests</AssemblyName>
+    <RootNamespace>KeyFlow.Core.Tests</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -14,6 +16,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <ProjectReference Include="..\..\src\Anjian.Core\Anjian.Core.csproj" />
+    <ProjectReference Include="..\..\src\KeyFlow.Core\KeyFlow.Core.csproj" />
   </ItemGroup>
 </Project>

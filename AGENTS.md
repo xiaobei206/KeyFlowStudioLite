@@ -7,7 +7,7 @@
 - 仓库：`xiaobei206/KeyFlowStudioLite`
 - 产品：KeyFlow Studio Lite
 - 默认分支：`main`
-- 当前产品基线：`1.0.0`
+- 当前产品基线：`1.0.1`
 - 平台：Windows 10/11 x64；WinForms + .NET 10 + Lua 5.4
 - 仓库和当前分支文档是项目状态的唯一事实来源。聊天记录只能补充，不得覆盖仓库中的明确决定。
 - 根 `README.md` 是文档导航；本文件定义协作约束；`docs/SESSION-HANDOFF.md` 定义当前状态和唯一下一任务；`docs/ROADMAP-CN.md` 是开发顺序；`docs/DEVELOPMENT-LOG-CN.md` 是不可覆盖的历史记录。
@@ -34,7 +34,7 @@
 
 ## 4. 版本与发布规约
 
-- `VERSION`、`PRODUCT_NAME`、`PRODUCT_ID`、`src/Anjian.App/Anjian.App.csproj` 的版本必须一致。
+- `VERSION`、`PRODUCT_NAME`、`PRODUCT_ID`、`src/KeyFlow.App/KeyFlow.App.csproj` 的版本必须一致。
 - 当前稳定基线为 `1.0.0`。下一次正式/预发布版本必须按 SemVer 递增，例如 `1.0.1` 或 `1.1.0-preview.1`；禁止重复覆盖同版本来伪装修复。
 - 只有在 Windows Actions 构建、测试、打包和 SHA256 均通过后才允许发布。
 - Release ZIP 必须包含所有 self-contained 伴随文件；同时发布 `.sha256` sidecar。
@@ -43,6 +43,8 @@
 - CI 通过不是 Windows 桌面实机验收通过；两者必须分别记录。
 
 ## 5. 技术与安全边界
+
+- 1.0.1 使用 KeyFlow 作为解决方案、项目目录、程序集、命名空间和应用程序身份。旧版用户数据通过 `AppDataPaths` 做非破坏性导入；不得删除旧数据目录。
 
 - UI 不直接调用 Win32 输入 API；脚本运行必须在独立 Worker 中，不能阻塞 UI 线程。
 - 输入按下与释放必须成对；取消、异常、停止和退出路径必须释放所有可能仍按下的鼠标/键盘输入。

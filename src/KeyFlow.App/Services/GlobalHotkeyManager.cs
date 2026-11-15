@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace Anjian.App.Services;
+namespace KeyFlow.App.Services;
 
 /// <summary>
 /// Routes classic global playback hotkeys to the WinForms UI thread.

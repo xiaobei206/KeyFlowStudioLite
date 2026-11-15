@@ -1,13 +1,11 @@
-using Anjian.App.Models;
+using KeyFlow.App.Models;
 using System.Text;
 
-namespace Anjian.App.Services;
+namespace KeyFlow.App.Services;
 
 public sealed class ScriptRepository
 {
-    public string RootDirectory { get; } = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "Anjian2026", "Scripts");
+    public string RootDirectory { get; } = AppDataPaths.ScriptsDirectory;
 
     public ScriptRepository() => Directory.CreateDirectory(RootDirectory);
 

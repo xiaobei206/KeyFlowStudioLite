@@ -1,4 +1,4 @@
-namespace Anjian.Core;
+namespace KeyFlow.Core;
 
 public sealed record PlaybackOptions
 {

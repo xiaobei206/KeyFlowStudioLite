@@ -2,7 +2,7 @@ using NLua;
 using KeraLua;
 using Xunit;
 
-namespace Anjian.Core.Tests;
+namespace KeyFlow.Core.Tests;
 
 public sealed class LuaRuntimeTests
 {

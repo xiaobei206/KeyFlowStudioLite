@@ -1,4 +1,4 @@
-namespace Anjian.App.Models;
+namespace KeyFlow.App.Models;
 
 public sealed record ScriptEntry(string Name, string FullPath)
 {

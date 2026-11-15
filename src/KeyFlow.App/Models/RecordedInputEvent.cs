@@ -1,4 +1,4 @@
-namespace Anjian.App.Models;
+namespace KeyFlow.App.Models;
 
 internal enum RecordedEventKind
 {

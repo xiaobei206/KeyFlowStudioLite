@@ -82,3 +82,16 @@
 - Self-contained publish、ZIP/SHA、artifact upload、GitHub Release 创建：全部 PASS。
 - ZIP：`KeyFlowStudioLite-1.0.0-win-x64.zip`，51,911,083 bytes；SHA256 `f9e33e319f725fbc94d85d73657de878f2f930f869276d2d0b0032936f9f7a90`。
 - 实际桌面键鼠 Hook、DPI/多屏、托盘/退出与长时间稳定性仍须用户 Windows 10/11 实机验收，保持 NOT RUN。
+
+
+## 1.0.1 新增验收项
+
+| ID | 场景 | 验收标准 | 自动化/实机 | 状态 |
+|---|---|---|---|---|
+| K01 | 悬浮窗宽度 | 客户区固定为 500 px；标题、脚本名、状态、完整界面、置顶、隐藏均可见 | Windows 实机 | NOT RUN |
+| K02 | 悬浮窗操作区 | 录制、结束录制、播放、暂停、停止按钮完整显示，无横向裁切 | Windows 实机 | NOT RUN |
+| K03 | 悬浮窗设置区 | 循环次数、无限提示、轮间隔、只录点击、X/Y 坐标完整显示 | Windows 实机 | NOT RUN |
+| K04 | 旧数据导入 | 首次启动将旧目录中缺失脚本/设置复制到新目录 | Windows 集成 | NOT RUN |
+| K05 | 数据不覆盖 | 新目录存在同名文件时保持新文件，旧源文件不删除 | 单元/集成 | NOT RUN |
+| K06 | 新应用身份 | 输出为 KeyFlowStudioLite.exe，项目/命名空间无旧开发代号 | Windows CI + 源码检查 | PENDING |
+

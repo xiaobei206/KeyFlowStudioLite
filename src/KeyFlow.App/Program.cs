@@ -1,6 +1,6 @@
-using Anjian.App.Services;
+using KeyFlow.App.Services;
 
-namespace Anjian.App;
+namespace KeyFlow.App;
 
 internal static class Program
 {
@@ -10,6 +10,7 @@ internal static class Program
         if (args.Length > 0 && args[0].Equals("--worker", StringComparison.OrdinalIgnoreCase))
             return WorkerProgram.Run(args);
 
+        AppDataPaths.EnsureMigrated();
         ApplicationConfiguration.Initialize();
         Application.Run(new MainForm());
         return 0;

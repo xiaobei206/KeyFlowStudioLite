@@ -296,3 +296,17 @@ TV-01：Lua 5.4 / .NET 10 绑定与中断机制 PoC。
 - 发布 ZIP：`KeyFlowStudioLite-1.0.0-win-x64.zip`，51,911,083 bytes；SHA256 `f9e33e319f725fbc94d85d73657de878f2f930f869276d2d0b0032936f9f7a90`。
 - SHA sidecar：`KeyFlowStudioLite-1.0.0-win-x64.zip.sha256`。
 - 新仓库完成源码迁移与 1.0.0 发布；下一阶段按 handoff 执行 M1 基线核验和稳定性补强。
+
+
+## 2026-11-15 — 1.0.1 — KeyFlow 内部命名统一与紧凑悬浮窗
+
+### 变更
+- 统一解决方案、项目目录/项目名、命名空间、程序集、EXE、应用清单和 Worker IPC 前缀为 KeyFlow。
+- 将用户数据目录更新为 `%LOCALAPPDATA%\\KeyFlowStudioLite`，首次启动非破坏性导入旧目录缺失文件；新文件优先、旧目录保留。
+- 悬浮窗客户区宽度从 640 px 调整到 500 px；缩短标题区、动作按钮和循环设置控件，保留实时 X/Y 坐标。
+- 更新 README、协作入口、交接、路线图、发布流程、用户手册、功能矩阵和验收项目。
+
+### 验证
+- Windows Actions：待本次提交后执行。
+- 自动化测试：待 Windows runner 执行。
+- Windows 10/11 实机悬浮窗布局、Hook、DPI/多屏、托盘验收：NOT RUN。

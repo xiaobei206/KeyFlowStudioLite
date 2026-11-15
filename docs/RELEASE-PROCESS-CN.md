@@ -6,15 +6,15 @@
 - `VERSION`
 - `PRODUCT_NAME`
 - `PRODUCT_ID`
-- `src/Anjian.App/Anjian.App.csproj` 的 ProductVersion
+- `src/KeyFlow.App/KeyFlow.App.csproj` 的 ProductVersion
 
 ## 2. 本地验证
 
 ```powershell
-dotnet restore Anjian2026.sln
-dotnet build Anjian2026.sln -c Release --no-restore
-dotnet test tests/Anjian.Core.Tests/Anjian.Core.Tests.csproj -c Release
-dotnet publish src/Anjian.App/Anjian.App.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=false -o artifacts/publish/win-x64
+dotnet restore KeyFlowStudioLite.sln
+dotnet build KeyFlowStudioLite.sln -c Release --no-restore
+dotnet test tests/KeyFlow.Core.Tests/KeyFlow.Core.Tests.csproj -c Release
+dotnet publish src/KeyFlow.App/KeyFlow.App.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=false -o artifacts/publish/win-x64
 ```
 
 ## 3. GitHub Actions
@@ -35,6 +35,10 @@ dotnet publish src/Anjian.App/Anjian.App.csproj -c Release -r win-x64 --self-con
 - 稳定 Release 禁止覆盖已有版本；修复必须提升 patch 或 minor 版本。
 - 每次发布更新 README、SESSION-HANDOFF、DEVELOPMENT-LOG 和 ACCEPTANCE。
 
-## 5. 回滚
+## 5. 用户数据迁移
 
-保留 Git tag 和上一版 Release。发现问题时先撤销代码提交或发布新 patch 版本；不要删除用户本地脚本/设置目录，不要在升级时清理 `%LOCALAPPDATA%\\Anjian2026`。
+1.0.1 将用户数据存放于 `%LOCALAPPDATA%\\KeyFlowStudioLite`。首次启动会从旧版目录复制目标目录中缺失的文件，不覆盖新数据、不删除源目录。回滚到旧版仍可使用原目录；新版本新增的数据不会自动反向同步。
+
+## 6. 回滚
+
+保留 Git tag 和上一版 Release。发现问题时先撤销代码提交或发布新 patch 版本；不要删除用户本地脚本/设置目录，不要在升级时清理 `%LOCALAPPDATA%\\KeyFlowStudioLite`。

@@ -1,4 +1,4 @@
-namespace Anjian.App.Services;
+namespace KeyFlow.App.Services;
 
 internal sealed class IpcMessage
 {
