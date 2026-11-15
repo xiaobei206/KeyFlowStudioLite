@@ -58,3 +58,17 @@
 ## 6. 当前未执行项目
 
 在真实 Windows 10/11 用户设备提交证据之前，本清单第 5 节全部默认为 `NOT RUN`。禁止因代码阅读、CI 构建成功或在模拟器中创建窗口而标记实机 PASS。
+
+
+## 7. 新仓库迁移 CI 验证
+
+- 仓库：`xiaobei206/KeyFlowStudioLite`
+- 提交：`7adc5bbe0553e02f89de74a72f1b7a7294a034a5`
+- Windows Actions：[43727695106](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/43727695106) — SUCCESS
+- Restore：PASS
+- Build：PASS，0 warnings / 0 errors
+- Core tests：7/7 PASS
+- Self-contained win-x64 publish：PASS
+- ZIP / SHA256：PASS
+- Actions artifact upload：PASS，artifact ID `14167530220`
+- 此为自动化验证；第 5 节实机项目仍保持 NOT RUN。

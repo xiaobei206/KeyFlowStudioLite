@@ -5,7 +5,7 @@
 - 产品：**KeyFlow Studio Lite**
 - 仓库：<https://github.com/xiaobei206/KeyFlowStudioLite>
 - 默认分支：`main`
-- 当前版本：`1.0.0`（源码迁移基线；新仓库 Release 由当前迁移流程创建）
+- 当前版本：`1.0.0`（新仓库 Windows CI 已 PASS；下一提交触发正式 Release）
 - 平台：Windows 10/11 x64
 - 技术栈：WinForms、.NET 10、Lua 5.4、NLua/KeraLua
 - 本文档是当前状态唯一入口。新 GPT 只需读取仓库 URL，再读 `AGENTS.md` 和本文件；不得要求用户重复提供项目提示词。
@@ -76,6 +76,16 @@
 - 决策记录：`/docs/DECISIONS-CN.md`
 - 发布规约：`/docs/RELEASE-PROCESS-CN.md`
 
-## 7. 当前提交
+## 7. 新仓库迁移 CI 结果（已核验）
 
-迁移完成后的具体 commit、Release tag、Actions run、ZIP 大小和 SHA256 必须由本次迁移执行者在发布成功后追加到这里。不得从旧仓库直接复制旧 Release URL 作为新仓库发布证明。
+- 迁移提交：`7adc5bbe0553e02f89de74a72f1b7a7294a034a5`
+- Windows Actions run：[43727695106](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/43727695106)，结论 SUCCESS。
+- Restore：PASS；Release Build：PASS，0 warnings / 0 errors；Core tests：7/7 PASS；self-contained win-x64 publish：PASS；ZIP/SHA：PASS；artifact upload：PASS。
+- Actions artifact ID：`14167530220`；artifact 名称 `KeyFlowStudioLite-release-win-x64`；大小 51,740,914 bytes；外层 artifact digest `sha256:b38bd54e38d85080bd396db81a1e23c539cb7d3562a7ad52fa686f1f23d999cd`。该摘要是 Actions artifact 外层 ZIP 摘要，不是产品 ZIP 自身 SHA。
+- 正式 Release 由下一条 `release: v1.0.0 KeyFlow Studio Lite` 提交触发；新 Release 资产和 SHA 只有在 run 成功后才能记录。
+
+## 8. 当前提交与下一步
+
+- 本文档当前对应迁移提交 `7adc5bbe0553e02f89de74a72f1b7a7294a034a5`。
+- 新仓库 Release 成功后，应将 release commit、tag、资产文件名/大小/SHA 和 Actions run 写入此处。
+- 下一会话唯一任务仍是 M1 基线核验与稳定性补强；先核对最新 HEAD/Release/Actions，不要再次迁移源码。

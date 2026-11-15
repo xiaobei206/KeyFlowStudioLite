@@ -275,3 +275,14 @@ TV-01：Lua 5.4 / .NET 10 绑定与中断机制 PoC。
 - 保留 Lite 1.0.0 既有实现与 Lua API；更新产品显示名、PRODUCT_NAME/PRODUCT_ID、README、AGENTS、CI/Release 工作流和项目交接文档。
 - 保留 Anjian2026.sln、Anjian.App.exe、%LOCALAPPDATA%\\Anjian2026\\Scripts、settings.json，避免已有用户脚本/配置迁移风险。
 - 新仓库 CI 和 Release 以新仓库 Actions 与 GitHub Release 为准；旧仓库 CI 仅证明迁移输入源版本可构建，不替代新仓库验证。
+
+
+## 2026-11-15 — KeyFlow Studio Lite 1.0.0 独立仓库迁移验证
+
+- 新仓库：`xiaobei206/KeyFlowStudioLite`，默认分支 `main`。
+- 源码来自旧仓库 tag `v1.0.0`，源 commit `9e2f8d8528f34468dd0423262da6ebe56d572de6`；完整迁移源码、ICO、测试、解决方案和文档。
+- 迁移提交：`7adc5bbe0553e02f89de74a72f1b7a7294a034a5`。
+- 产品品牌改为 KeyFlow Studio Lite，包 ID 为 `KeyFlowStudioLite`；旧的 Anjian 解决方案/EXE 名和本机用户数据目录保持兼容。
+- 新仓库 Windows Actions run [43727695106](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/43727695106) SUCCESS：0 Build warnings、0 errors、7/7 Core tests、self-contained win-x64 publish、ZIP/SHA 与 artifact upload 全 PASS。
+- Actions artifact ID `14167530220`，外层归档 51,740,914 bytes，digest `sha256:b38bd54e38d85080bd396db81a1e23c539cb7d3562a7ad52fa686f1f23d999cd`。
+- 新仓库正式 `v1.0.0` Release 将由独立的 release commit 触发；未经核对 Release API 与资产清单前，不得声称已发布。
