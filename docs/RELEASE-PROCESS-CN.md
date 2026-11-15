@@ -1,0 +1,40 @@
+# 发布流程与版本规约
+
+## 1. 版本源
+
+以下内容必须一致：
+- `VERSION`
+- `PRODUCT_NAME`
+- `PRODUCT_ID`
+- `src/Anjian.App/Anjian.App.csproj` 的 ProductVersion
+
+## 2. 本地验证
+
+```powershell
+dotnet restore Anjian2026.sln
+dotnet build Anjian2026.sln -c Release --no-restore
+dotnet test tests/Anjian.Core.Tests/Anjian.Core.Tests.csproj -c Release
+dotnet publish src/Anjian.App/Anjian.App.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=false -o artifacts/publish/win-x64
+```
+
+## 3. GitHub Actions
+
+`.github/workflows/windows-build.yml` 在 main push / PR 时执行 Restore、Build、Core tests、self-contained win-x64 publish、ZIP 和 SHA256、artifact 上传。
+
+提交信息以 `release:` 开头时，在完整构建通过后创建 GitHub Release：
+- Tag：`vX.Y.Z`
+- ZIP：`KeyFlowStudioLite-X.Y.Z-win-x64.zip`
+- Sidecar：`KeyFlowStudioLite-X.Y.Z-win-x64.zip.sha256`
+
+## 4. 发布门禁
+
+- 任何 Build error 或测试失败：停止发布。
+- ProductVersion 与 VERSION 不匹配：停止发布。
+- ZIP 或 sidecar 不存在：停止发布。
+- 发布后核验 tag、release 是否 prerelease、资产名称、大小、SHA256。
+- 稳定 Release 禁止覆盖已有版本；修复必须提升 patch 或 minor 版本。
+- 每次发布更新 README、SESSION-HANDOFF、DEVELOPMENT-LOG 和 ACCEPTANCE。
+
+## 5. 回滚
+
+保留 Git tag 和上一版 Release。发现问题时先撤销代码提交或发布新 patch 版本；不要删除用户本地脚本/设置目录，不要在升级时清理 `%LOCALAPPDATA%\\Anjian2026`。
