@@ -365,3 +365,15 @@ TV-01：Lua 5.4 / .NET 10 绑定与中断机制 PoC。
 ### 验证状态
 - 当前记录为发布候选；Windows Actions、ZIP/SHA 和 Release 资产结果在正式发布后补记。
 - Windows 实机 100/125/150% DPI、多显示器、拖动、按钮截断和持续运行：NOT RUN，不能由源码改动或 CI 通过代替。
+
+
+### 1.1.1 发布验证补记（2026-11-20）
+
+- 发布提交：`7d8ff7b5999fc9379a52ca4f4de4a7efa55ac1aa`。
+- Release：[v1.1.1](https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.1.1)，正式版，prerelease=false。
+- Windows Actions：[44737292744](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/44737292744)，SUCCESS。
+- Restore / Build / Test / self-contained publish / ZIP+SHA / Artifact upload / Release creation 全部 PASS；Release Build 0 warnings / 0 errors。
+- Core tests：10 passed / 0 failed / 0 skipped。
+- ZIP：`KeyFlowStudioLite-1.1.1-win-x64.zip`，51,916,404 bytes；SHA256：`803109a87168f9e6ce25a8037ff2901d81d70594d01857ef33e10e1f591dbbf1`。
+- Windows 实机悬浮窗 DPI、拖动、多显示器、负坐标与控件截断验收继续为 NOT RUN。
+- 此版本没有修改已报告的命名管道 `Pipe is broken` 故障；原因尚未确认，后续遵守用户先讨论的要求。

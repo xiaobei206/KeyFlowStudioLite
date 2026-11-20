@@ -7,7 +7,7 @@
 - 仓库：`xiaobei206/KeyFlowStudioLite`
 - 产品：KeyFlow Studio Lite
 - 默认分支：`main`
-- 当前产品基线：`1.0.1`
+- 当前产品基线：`1.1.1`
 - 平台：Windows 10/11 x64；WinForms + .NET 10 + Lua 5.4
 - 仓库和当前分支文档是项目状态的唯一事实来源。聊天记录只能补充，不得覆盖仓库中的明确决定。
 - 根 `README.md` 是文档导航；本文件定义协作约束；`docs/SESSION-HANDOFF.md` 定义当前状态和唯一下一任务；`docs/ROADMAP-CN.md` 是开发顺序；`docs/DEVELOPMENT-LOG-CN.md` 是不可覆盖的历史记录。
@@ -35,7 +35,7 @@
 ## 4. 版本与发布规约
 
 - `VERSION`、`PRODUCT_NAME`、`PRODUCT_ID`、`src/KeyFlow.App/KeyFlow.App.csproj` 的版本必须一致。
-- 当前稳定基线为 `1.0.1`。下一次正式/预发布版本必须按 SemVer 递增，例如 `1.0.2` 或 `1.1.0-preview.1`；禁止重复覆盖同版本来伪装修复。
+- 当前稳定基线为 `1.1.1`。下一次正式/预发布版本必须按 SemVer 递增，例如 `1.1.2` 或 `1.2.0-preview.1`；禁止重复覆盖同版本来伪装修复。
 - 只有在 Windows Actions 构建、测试、打包和 SHA256 均通过后才允许发布。
 - Release ZIP 必须包含所有 self-contained 伴随文件；同时发布 `.sha256` sidecar。
 - Release 标签使用 `vX.Y.Z`；提交信息使用 `release: vX.Y.Z <purpose>` 触发发布 workflow。

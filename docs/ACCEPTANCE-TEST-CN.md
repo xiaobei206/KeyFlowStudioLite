@@ -145,3 +145,13 @@ Windows Actions PASS 不代表以上实机用例全部通过。没有证据的�
 - [ ] 长时间显示及反复切换主界面后，计时器、窗口显示和操作未出现异常。
 
 CI 仅验证构建、测试和打包，不能把上述实机项目自动标记为 PASS。
+
+
+## v1.1.1 Release 验证记录
+
+- Release：[v1.1.1](https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.1.1)。
+- 工作流：[44737292744](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/44737292744) — SUCCESS。
+- Restore、Build、Test、自包含发布、ZIP/SHA256、Artifact upload 和 Release creation：全部 PASS。
+- Release Build：0 warnings / 0 errors；Core tests：10/10 PASS。
+- ZIP：51,916,404 bytes；SHA256：`803109a87168f9e6ce25a8037ff2901d81d70594d01857ef33e10e1f591dbbf1`。
+- v1.1.1 的 Windows 真实桌面布局/DPI/拖动/负坐标验收继续为 NOT RUN。

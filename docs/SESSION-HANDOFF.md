@@ -4,12 +4,25 @@
 - 产品：**KeyFlow Studio Lite**
 - 仓库：<https://github.com/xiaobei206/KeyFlowStudioLite>
 - 默认分支：`main`
-- 当前稳定版本：**1.1.0**
+- 当前稳定版本：**1.1.1**
 - 平台：Windows 10/11 x64
 - 技术栈：WinForms、.NET 10、Lua 5.4、NLua/KeraLua
-- 本次发布提交：`84bd6b80746c43e1022d635eeccac535f6f1de50`
-- 本次功能实现提交：`bf4987e6426e4ee9b15fd1eb9ca4dc474f709456`
+- 本次发布/功能提交：`7d8ff7b5999fc9379a52ca4f4de4a7efa55ac1aa`
 - 新会话必须重新读取 `main` 最新 HEAD；不要只依赖历史记录里的 SHA。
+
+## 1.1.1 正式交付
+- Release：https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.1.1（正式版，prerelease=false）
+- Windows ZIP：`KeyFlowStudioLite-1.1.1-win-x64.zip`，51,916,404 bytes。
+- ZIP SHA256：`803109a87168f9e6ce25a8037ff2901d81d70594d01857ef33e10e1f591dbbf1`。
+- SHA256 sidecar：`KeyFlowStudioLite-1.1.1-win-x64.zip.sha256`。
+- Release Actions：[44737292744](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/44737292744)，SUCCESS；Restore、Build、Test、Publish、ZIP/SHA、Artifact 上传和 Release 创建均 PASS。
+- Release Build：0 warnings / 0 errors；Core tests：10/10 PASS，0 failed，0 skipped。
+
+## 1.1.1 悬浮窗视觉更新
+- 根据用户实机截图，将独立悬浮窗改为 600 × 190 px；标题/脚本/状态与窗口按钮、主操作、循环和实时坐标、点击节奏分别分区。
+- 播放按钮作为主要操作突出显示；录制使用低饱和红色，状态以低饱和颜色区分录制、播放、暂停和就绪。
+- 完整主界面没有重做；本次没有改动 PlaybackRunner 的命名管道生命周期。
+- Windows 真机 DPI、混合 DPI、多显示器、负坐标、拖动与控件无截断验收仍为 NOT RUN。
 
 ## 1.1.0 正式交付
 - Release：<https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.1.0>（正式版，prerelease=false）
@@ -42,4 +55,5 @@
 - 自动化 CI PASS 不等于 Windows 桌面实机验收 PASS；未实测项目继续标记 NOT RUN。
 
 ## 下一会话唯一任务
-先重新核对 main HEAD、v1.1.0 Release、ZIP/SHA 和 Actions。然后优先完成 Windows 实机验收：固定节奏设置持久化、悬浮窗布局/DPI/拖动、悬停菜单任务、暂停预览与最终脚本一致性、长时间录制与停止释放。实机没有完成前不要将其标为 PASS；如发现问题，按 SemVer 发布新补丁/次版本，不重用 1.1.0。
+先核对 main 最新 HEAD、v1.1.1 Release、ZIP/SHA 和 Actions，再按用户此前的“先讨论”要求，继续讨论但暂不改动命名管道故障。用户提供的长循环日志在第 6 轮报 `System.IO.IOException: Pipe is broken`，堆栈落在 `PlaybackRunner.RunOneAsync` 的 `StreamWriter.Dispose/Flush` 收尾阶段；这提示可能是 Worker 关闭管道后的清理异常，但根因尚未确认。该故障没有包含在 v1.1.1，也未被宣称已修复。除非用户明确同意进入修复，不改 IPC 代码。
+悬浮窗实际 Windows 桌面验收同样保持 NOT RUN：需要用户确认 100/125/150% DPI、拖动、状态显示、坐标截断和实际观感。

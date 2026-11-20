@@ -6,21 +6,21 @@
 
 ## 当前状态
 
-- 当前稳定版本：**1.1.0**（2026-11-20 正式发布）
+- 当前稳定版本：**1.1.1**（2026-11-20 正式发布）
 - 技术栈：WinForms + .NET 10 + Lua 5.4（NLua/KeraLua）
 - 平台：Windows 10/11 x64
 - 默认分支：`main`
-- 稳定版 Release：<https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.1.0>
-- Windows ZIP：`KeyFlowStudioLite-1.1.0-win-x64.zip`（51,915,111 bytes）
-- SHA256：`b8af447c184807ce59516e1a90e3dd0cf7ebbcc31414185a530b4c62b06fd207`
-- Windows Actions：[44733253454](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/44733253454) SUCCESS；10/10 tests，0 warnings/errors，自包含发布与 ZIP/SHA 校验通过。
+- 稳定版 Release：<https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.1.1>
+- Windows ZIP：`KeyFlowStudioLite-1.1.1-win-x64.zip`（51,916,404 bytes）
+- SHA256：`803109a87168f9e6ce25a8037ff2901d81d70594d01857ef33e10e1f591dbbf1`
+- Windows Actions：[44737292744](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/44737292744) SUCCESS；10/10 tests，Release Build 0 warnings / 0 errors，自包含发布与 ZIP/SHA 校验通过。
 - 下载入口：<https://github.com/xiaobei206/KeyFlowStudioLite/releases/latest>
 - 项目交接：[`docs/SESSION-HANDOFF.md`](docs/SESSION-HANDOFF.md)
 - 自动化开发规则：[`AGENTS.md`](AGENTS.md)
 
 ## 下载与运行
 
-从 [Releases](https://github.com/xiaobei206/KeyFlowStudioLite/releases) 下载 `KeyFlowStudioLite-1.1.0-win-x64.zip` 和同目录的 `.sha256` 文件。先校验 SHA256，再完整解压并运行 `KeyFlowStudioLite.exe`。不要单独提取 EXE；Worker、Lua 和 .NET 运行时伴随文件必须完整保留。
+从 [Releases](https://github.com/xiaobei206/KeyFlowStudioLite/releases) 下载 `KeyFlowStudioLite-1.1.1-win-x64.zip` 和同目录的 `.sha256` 文件。先校验 SHA256，再完整解压并运行 `KeyFlowStudioLite.exe`。不要单独提取 EXE；Worker、Lua 和 .NET 运行时伴随文件必须完整保留。
 
 ## 功能范围
 
@@ -30,7 +30,7 @@
 - 鼠标移动、左右中键、按下/释放、滚轮、键盘单键、组合键和 Unicode 文本输入。
 - 独立 Worker 运行 Lua；播放、暂停、停止、循环次数、轮间隔和异常日志。
 - F10 播放、F11 暂停/继续、F12 中止。
-- 约 500 px 紧凑悬浮窗，脚本名、状态、录制/播放操作、循环设置与实时坐标均保持可见。
+- 约 600 × 190 px 的分区式浅色悬浮窗：脚本名与状态、主要操作、循环参数、实时坐标和固定点击节奏分行呈现。
 
 完整边界见 [Lite 范围](docs/LITE-SCOPE-CN.md) 和 [功能矩阵](docs/FEATURE-MATRIX-CN.md)。
 
