@@ -4,6 +4,13 @@ namespace KeyFlow.App;
 
 internal sealed class FloatingForm : Form
 {
+    private static readonly Color WindowBorder = Color.FromArgb(211, 220, 231);
+    private static readonly Color WindowSurface = Color.FromArgb(250, 252, 255);
+    private static readonly Color SubtleSurface = Color.FromArgb(242, 246, 250);
+    private static readonly Color PrimaryText = Color.FromArgb(31, 43, 59);
+    private static readonly Color SecondaryText = Color.FromArgb(99, 113, 131);
+    private static readonly Color BlueText = Color.FromArgb(37, 82, 142);
+
     private readonly Label _scriptLabel = new();
     private readonly Label _statusLabel = new();
     private readonly Label _coordinatesLabel = new();
@@ -16,7 +23,7 @@ internal sealed class FloatingForm : Form
     private readonly NumericUpDown _repeatCount = new();
     private readonly NumericUpDown _repeatInterval = new();
     private readonly CheckBox _clickOnlyCheck = new() { Text = "只录点击", AutoSize = true, Checked = true };
-    private readonly CheckBox _fixedClickIntervalCheck = new() { Text = "固定间隔", AutoSize = true };
+    private readonly CheckBox _fixedClickIntervalCheck = new() { Text = "固定间隔", AutoSize = false, Width = 82 };
     private readonly NumericUpDown _fixedClickIntervalMs = new();
     private readonly NumericUpDown _postClickDelayMs = new();
     private readonly NumericUpDown _hoverDelayMs = new();
@@ -54,10 +61,11 @@ internal sealed class FloatingForm : Form
         AutoScaleDimensions = new SizeF(96F, 96F);
         ShowInTaskbar = false;
         StartPosition = FormStartPosition.Manual;
-        ClientSize = new Size(520, 140);
-        MinimumSize = new Size(520, 140);
-        MaximumSize = new Size(520, 140);
-        BackColor = Color.FromArgb(249, 250, 252);
+        ClientSize = new Size(600, 190);
+        MinimumSize = new Size(600, 190);
+        MaximumSize = new Size(600, 190);
+        BackColor = WindowBorder;
+        Padding = new Padding(1);
         Font = new Font("Microsoft YaHei UI", 9F);
         BuildUi();
 
@@ -69,7 +77,7 @@ internal sealed class FloatingForm : Form
         _coordinateTimer.Tick += (_, _) =>
         {
             var p = Cursor.Position;
-            _coordinatesLabel.Text = $"X {p.X}  Y {p.Y}";
+            _coordinatesLabel.Text = $"X {p.X}   Y {p.Y}";
         };
         _coordinateTimer.Start();
     }
@@ -80,170 +88,294 @@ internal sealed class FloatingForm : Form
         {
             Dock = DockStyle.Fill,
             ColumnCount = 1,
-            RowCount = 4,
-            Padding = new Padding(8, 5, 8, 5),
-            BackColor = BackColor
+            RowCount = 5,
+            Padding = new Padding(12, 7, 12, 7),
+            BackColor = WindowSurface,
+            Margin = Padding.Empty
         };
-        root.RowStyles.Add(new RowStyle(SizeType.Absolute, 28));
-        root.RowStyles.Add(new RowStyle(SizeType.Absolute, 35));
         root.RowStyles.Add(new RowStyle(SizeType.Absolute, 32));
-        root.RowStyles.Add(new RowStyle(SizeType.Absolute, 32));
+        root.RowStyles.Add(new RowStyle(SizeType.Absolute, 38));
+        root.RowStyles.Add(new RowStyle(SizeType.Absolute, 38));
+        root.RowStyles.Add(new RowStyle(SizeType.Absolute, 42));
+        root.RowStyles.Add(new RowStyle(SizeType.Absolute, 20));
 
-        var header = new FlowLayoutPanel
+        var header = BuildHeader();
+        var actions = BuildActions();
+        var settingsSurface = BuildSettings();
+        var pacing = BuildPacing();
+        var footer = BuildFooter();
+
+        root.Controls.Add(header, 0, 0);
+        root.Controls.Add(actions, 0, 1);
+        root.Controls.Add(settingsSurface, 0, 2);
+        root.Controls.Add(pacing, 0, 3);
+        root.Controls.Add(footer, 0, 4);
+        Controls.Add(root);
+
+        UpdatePacingControls();
+    }
+
+    private Control BuildHeader()
+    {
+        var header = new TableLayoutPanel
+        {
+            Dock = DockStyle.Fill,
+            ColumnCount = 4,
+            RowCount = 1,
+            Margin = Padding.Empty,
+            Padding = Padding.Empty,
+            BackColor = WindowSurface
+        };
+        header.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 68));
+        header.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+        header.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 58));
+        header.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 180));
+
+        var brand = new Label
+        {
+            Text = "KeyFlow",
+            Dock = DockStyle.Fill,
+            Font = new Font("Microsoft YaHei UI", 10.5F, FontStyle.Bold),
+            ForeColor = Color.FromArgb(25, 48, 79),
+            TextAlign = ContentAlignment.MiddleLeft,
+            Margin = Padding.Empty
+        };
+
+        _scriptLabel.Dock = DockStyle.Fill;
+        _scriptLabel.AutoSize = false;
+        _scriptLabel.AutoEllipsis = true;
+        _scriptLabel.Text = "脚本：未选择";
+        _scriptLabel.TextAlign = ContentAlignment.MiddleLeft;
+        _scriptLabel.ForeColor = PrimaryText;
+        _scriptLabel.Margin = new Padding(0, 0, 8, 0);
+
+        _statusLabel.Dock = DockStyle.Fill;
+        _statusLabel.AutoSize = false;
+        _statusLabel.Text = "就绪";
+        _statusLabel.TextAlign = ContentAlignment.MiddleCenter;
+        _statusLabel.Font = new Font("Microsoft YaHei UI", 8.25F, FontStyle.Bold);
+        _statusLabel.ForeColor = Color.FromArgb(77, 91, 108);
+        _statusLabel.BackColor = Color.FromArgb(237, 242, 247);
+        _statusLabel.Margin = new Padding(4, 3, 4, 3);
+
+        var windowActions = new FlowLayoutPanel
         {
             Dock = DockStyle.Fill,
             WrapContents = false,
             FlowDirection = FlowDirection.LeftToRight,
             Margin = Padding.Empty,
-            Padding = Padding.Empty
+            Padding = Padding.Empty,
+            BackColor = WindowSurface
         };
-        var brand = new Label
-        {
-            Text = "KeyFlow",
-            AutoSize = true,
-            Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Bold),
-            ForeColor = Color.FromArgb(28, 50, 82),
-            Margin = new Padding(1, 4, 8, 0)
-        };
-        _scriptLabel.AutoSize = false;
-        _scriptLabel.Width = 108;
-        _scriptLabel.Height = 26;
-        _scriptLabel.AutoEllipsis = true;
-        _scriptLabel.Text = "脚本：未选择";
-        _scriptLabel.TextAlign = ContentAlignment.MiddleLeft;
-        _scriptLabel.ForeColor = Color.FromArgb(70, 83, 101);
-        _scriptLabel.Margin = new Padding(0, 1, 4, 0);
-        _statusLabel.AutoSize = true;
-        _statusLabel.Text = "就绪";
-        _statusLabel.ForeColor = Color.FromArgb(20, 128, 104);
-        _statusLabel.Font = new Font(Font, FontStyle.Bold);
-        _statusLabel.Margin = new Padding(0, 5, 4, 0);
 
-        var openMain = MakeButton("完整界面 ↗", 78);
+        var openMain = MakeButton("完整界面", 78, 26);
+        openMain.Font = new Font("Microsoft YaHei UI", 8F);
+        openMain.Margin = new Padding(1, 2, 1, 2);
         openMain.Click += (_, _) => OpenMainRequested?.Invoke();
+
         _topmostButton.Text = "置顶";
         _topmostButton.AutoSize = false;
-        _topmostButton.Width = 48;
-        _topmostButton.Height = 27;
-        _topmostButton.Margin = new Padding(2, 0, 2, 0);
+        _topmostButton.Width = 58;
+        _topmostButton.Height = 26;
+        _topmostButton.Margin = new Padding(1, 2, 1, 2);
+        _topmostButton.Font = new Font("Microsoft YaHei UI", 8F);
+        StyleActionButton(_topmostButton, Color.White, SecondaryText);
         _topmostButton.Click += (_, _) => AlwaysOnTopChanged?.Invoke(!TopMost);
-        var hide = MakeButton("×", 28);
+
+        var hide = MakeButton("×", 28, 26);
+        hide.Font = new Font("Microsoft YaHei UI", 10F);
+        hide.Margin = new Padding(1, 2, 1, 2);
         hide.Click += (_, _) => HideRequested?.Invoke();
 
-        header.Controls.Add(brand);
-        header.Controls.Add(_scriptLabel);
-        header.Controls.Add(_statusLabel);
-        header.Controls.Add(openMain);
-        header.Controls.Add(_topmostButton);
-        header.Controls.Add(hide);
+        windowActions.Controls.Add(openMain);
+        windowActions.Controls.Add(_topmostButton);
+        windowActions.Controls.Add(hide);
+
+        header.Controls.Add(brand, 0, 0);
+        header.Controls.Add(_scriptLabel, 1, 0);
+        header.Controls.Add(_statusLabel, 2, 0);
+        header.Controls.Add(windowActions, 3, 0);
+
         AttachDrag(header);
         AttachDrag(brand);
         AttachDrag(_scriptLabel);
         AttachDrag(_statusLabel);
+        return header;
+    }
 
-        var actions = new FlowLayoutPanel
+    private Control BuildActions()
+    {
+        var layout = new TableLayoutPanel
+        {
+            Dock = DockStyle.Fill,
+            ColumnCount = 2,
+            RowCount = 1,
+            Margin = Padding.Empty,
+            Padding = Padding.Empty,
+            BackColor = WindowSurface
+        };
+        layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+        layout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 154));
+
+        var buttons = new FlowLayoutPanel
         {
             Dock = DockStyle.Fill,
             WrapContents = false,
             FlowDirection = FlowDirection.LeftToRight,
             Margin = Padding.Empty,
-            Padding = Padding.Empty
+            Padding = Padding.Empty,
+            BackColor = WindowSurface
         };
+
         _recordButton.Text = "● 开始录制";
-        _recordButton.Width = 88;
-        _recordButton.Height = 29;
-        StyleActionButton(_recordButton, Color.FromArgb(254, 242, 242), Color.FromArgb(153, 27, 27));
+        _recordButton.Width = 98;
+        _recordButton.Height = 32;
+        _recordButton.Margin = new Padding(2, 3, 2, 3);
+        StyleActionButton(_recordButton, Color.FromArgb(255, 241, 240), Color.FromArgb(174, 46, 38), Color.FromArgb(246, 211, 207));
         _recordButton.Click += (_, _) => RecordToggleRequested?.Invoke();
-        actions.Controls.Add(_recordButton);
+        buttons.Controls.Add(_recordButton);
 
         _stopRecordButton.Text = "■ 结束录制";
-        _stopRecordButton.Width = 86;
-        _stopRecordButton.Height = 29;
-        StyleActionButton(_stopRecordButton, Color.White, Color.FromArgb(71, 85, 105));
+        _stopRecordButton.Width = 88;
+        _stopRecordButton.Height = 32;
+        _stopRecordButton.Margin = new Padding(2, 3, 2, 3);
+        StyleActionButton(_stopRecordButton, Color.White, Color.FromArgb(73, 87, 105));
         _stopRecordButton.Enabled = false;
         _stopRecordButton.Click += (_, _) => StopRecordingRequested?.Invoke();
-        actions.Controls.Add(_stopRecordButton);
+        buttons.Controls.Add(_stopRecordButton);
 
         _playButton.Text = "▶ 播放";
-        _playButton.Width = 66;
-        _playButton.Height = 29;
-        StyleActionButton(_playButton, Color.FromArgb(236, 253, 245), Color.FromArgb(6, 95, 70));
+        _playButton.Width = 74;
+        _playButton.Height = 32;
+        _playButton.Margin = new Padding(2, 3, 2, 3);
+        StyleActionButton(_playButton, Color.FromArgb(22, 123, 96), Color.White, Color.FromArgb(22, 123, 96));
         _playButton.Click += (_, _) => PlayRequested?.Invoke();
-        actions.Controls.Add(_playButton);
+        buttons.Controls.Add(_playButton);
 
         _pauseButton.Text = "Ⅱ 暂停";
-        _pauseButton.Width = 66;
-        _pauseButton.Height = 29;
+        _pauseButton.Width = 74;
+        _pauseButton.Height = 32;
+        _pauseButton.Margin = new Padding(2, 3, 2, 3);
         StyleActionButton(_pauseButton, Color.White, Color.FromArgb(51, 65, 85));
         _pauseButton.Enabled = false;
         _pauseButton.Click += (_, _) => PauseRequested?.Invoke();
-        actions.Controls.Add(_pauseButton);
+        buttons.Controls.Add(_pauseButton);
 
         _stopButton.Text = "■ 停止";
-        _stopButton.Width = 66;
-        _stopButton.Height = 29;
+        _stopButton.Width = 64;
+        _stopButton.Height = 32;
+        _stopButton.Margin = new Padding(2, 3, 2, 3);
         StyleActionButton(_stopButton, Color.White, Color.FromArgb(51, 65, 85));
         _stopButton.Enabled = false;
         _stopButton.Click += (_, _) => StopPlaybackRequested?.Invoke();
-        actions.Controls.Add(_stopButton);
+        buttons.Controls.Add(_stopButton);
 
+        var shortcutHint = new Label
+        {
+            Dock = DockStyle.Fill,
+            AutoSize = false,
+            Text = "F10 播放  ·  F11 暂停  ·  F12 中止",
+            TextAlign = ContentAlignment.MiddleRight,
+            Font = new Font("Microsoft YaHei UI", 8F),
+            ForeColor = SecondaryText,
+            Margin = new Padding(0, 0, 1, 0)
+        };
+
+        layout.Controls.Add(buttons, 0, 0);
+        layout.Controls.Add(shortcutHint, 1, 0);
+        return layout;
+    }
+
+    private Control BuildSettings()
+    {
+        var surface = new Panel
+        {
+            Dock = DockStyle.Fill,
+            Margin = new Padding(0, 1, 0, 1),
+            Padding = new Padding(6, 0, 2, 0),
+            BackColor = SubtleSurface
+        };
         var settings = new FlowLayoutPanel
         {
             Dock = DockStyle.Fill,
             WrapContents = false,
             FlowDirection = FlowDirection.LeftToRight,
             Margin = Padding.Empty,
-            Padding = Padding.Empty
+            Padding = Padding.Empty,
+            BackColor = SubtleSurface
         };
-        settings.Controls.Add(new Label { Text = "循环", AutoSize = true, Margin = new Padding(2, 7, 2, 0) });
+
+        settings.Controls.Add(MakeInlineLabel("循环", 32));
         _repeatCount.Minimum = 0;
         _repeatCount.Maximum = PlaybackOptions.MaximumRepeatCount;
         _repeatCount.Value = 1;
         _repeatCount.Width = 54;
-        _repeatCount.Margin = new Padding(0, 2, 2, 0);
+        _repeatCount.Margin = new Padding(0, 6, 4, 0);
+        _repeatCount.TextAlign = HorizontalAlignment.Center;
         _repeatCount.ValueChanged += (_, _) =>
         {
             if (!_syncing) RepeatCountChanged?.Invoke((int)_repeatCount.Value);
         };
         settings.Controls.Add(_repeatCount);
-        settings.Controls.Add(new Label { Text = "0=∞", AutoSize = true, ForeColor = Color.FromArgb(95, 108, 125), Margin = new Padding(2, 7, 6, 0) });
 
-        settings.Controls.Add(new Label { Text = "间隔", AutoSize = true, Margin = new Padding(0, 7, 3, 0) });
+        settings.Controls.Add(MakeInlineLabel("0=无限", 52, SecondaryText));
+        settings.Controls.Add(MakeInlineLabel("轮间隔", 48));
         _repeatInterval.Minimum = 0;
         _repeatInterval.Maximum = PlaybackOptions.MaximumIntervalMilliseconds;
         _repeatInterval.Increment = 100;
         _repeatInterval.Value = 2_000;
         _repeatInterval.Width = 66;
-        _repeatInterval.Margin = new Padding(0, 2, 4, 0);
+        _repeatInterval.Margin = new Padding(0, 6, 2, 0);
+        _repeatInterval.TextAlign = HorizontalAlignment.Center;
         _repeatInterval.ValueChanged += (_, _) =>
         {
             if (!_syncing) RepeatIntervalChanged?.Invoke((int)_repeatInterval.Value);
         };
         settings.Controls.Add(_repeatInterval);
+        settings.Controls.Add(MakeInlineLabel("ms", 18, SecondaryText));
 
-        _clickOnlyCheck.Margin = new Padding(2, 5, 0, 0);
+        _clickOnlyCheck.AutoSize = false;
+        _clickOnlyCheck.Width = 82;
+        _clickOnlyCheck.Height = 30;
+        _clickOnlyCheck.Margin = new Padding(5, 3, 2, 3);
+        _clickOnlyCheck.ForeColor = PrimaryText;
+        settings.Controls.Add(_clickOnlyCheck);
         _clickOnlyCheck.CheckedChanged += (_, _) =>
         {
             if (!_syncing) ClickOnlyRecordingChanged?.Invoke(_clickOnlyCheck.Checked);
             UpdatePacingControls();
         };
-        settings.Controls.Add(_clickOnlyCheck);
 
-        _coordinatesLabel.AutoSize = true;
+        _coordinatesLabel.AutoSize = false;
+        _coordinatesLabel.Width = 132;
+        _coordinatesLabel.Height = 28;
+        _coordinatesLabel.Text = "X 00000   Y 00000";
+        _coordinatesLabel.TextAlign = ContentAlignment.MiddleCenter;
         _coordinatesLabel.Font = new Font("Consolas", 9F, FontStyle.Bold);
-        _coordinatesLabel.ForeColor = Color.FromArgb(44, 82, 130);
-        _coordinatesLabel.Margin = new Padding(6, 7, 0, 0);
+        _coordinatesLabel.ForeColor = BlueText;
+        _coordinatesLabel.BackColor = Color.FromArgb(232, 241, 253);
+        _coordinatesLabel.Margin = new Padding(8, 3, 0, 3);
         settings.Controls.Add(_coordinatesLabel);
 
+        surface.Controls.Add(settings);
+        return surface;
+    }
+
+    private Control BuildPacing()
+    {
         var pacing = new FlowLayoutPanel
         {
             Dock = DockStyle.Fill,
             WrapContents = false,
             FlowDirection = FlowDirection.LeftToRight,
             Margin = Padding.Empty,
-            Padding = Padding.Empty
+            Padding = Padding.Empty,
+            BackColor = WindowSurface
         };
-        _fixedClickIntervalCheck.Margin = new Padding(2, 5, 6, 0);
+
+        _fixedClickIntervalCheck.Height = 30;
+        _fixedClickIntervalCheck.Margin = new Padding(2, 5, 4, 0);
+        _fixedClickIntervalCheck.ForeColor = PrimaryText;
         _fixedClickIntervalCheck.CheckedChanged += (_, _) =>
         {
             UpdatePacingControls();
@@ -251,49 +383,105 @@ internal sealed class FloatingForm : Form
         };
         pacing.Controls.Add(_fixedClickIntervalCheck);
 
-        pacing.Controls.Add(new Label { Text = "总间隔", AutoSize = true, Margin = new Padding(0, 7, 3, 0) });
+        pacing.Controls.Add(new Panel
+        {
+            Width = 1,
+            Height = 22,
+            BackColor = WindowBorder,
+            Margin = new Padding(2, 9, 8, 0)
+        });
+
+        pacing.Controls.Add(MakeInlineLabel("总间隔", 44));
         ConfigureDelayInput(_fixedClickIntervalMs, 400, value =>
         {
             if (!_syncing) FixedClickIntervalMillisecondsChanged?.Invoke(value);
         });
         pacing.Controls.Add(_fixedClickIntervalMs);
+        pacing.Controls.Add(MakeInlineLabel("ms", 17, SecondaryText));
 
-        pacing.Controls.Add(new Label { Text = "点击后", AutoSize = true, Margin = new Padding(4, 7, 3, 0) });
+        pacing.Controls.Add(MakeInlineLabel("点击后", 48));
         ConfigureDelayInput(_postClickDelayMs, 50, value =>
         {
             if (!_syncing) PostClickDelayMillisecondsChanged?.Invoke(value);
         });
         pacing.Controls.Add(_postClickDelayMs);
+        pacing.Controls.Add(MakeInlineLabel("ms", 17, SecondaryText));
 
-        pacing.Controls.Add(new Label { Text = "悬停", AutoSize = true, Margin = new Padding(4, 7, 3, 0) });
+        pacing.Controls.Add(MakeInlineLabel("悬停", 38));
         ConfigureDelayInput(_hoverDelayMs, 150, value =>
         {
             if (!_syncing) HoverDelayMillisecondsChanged?.Invoke(value);
         });
         pacing.Controls.Add(_hoverDelayMs);
-        pacing.Controls.Add(new Label { Text = "ms", AutoSize = true, ForeColor = Color.FromArgb(100, 116, 139), Margin = new Padding(2, 7, 0, 0) });
+        pacing.Controls.Add(MakeInlineLabel("ms", 17, SecondaryText));
 
         _pacingToolTip.SetToolTip(_fixedClickIntervalCheck, "仅在“只录点击”模式生效。总间隔包含点击后等待和移动后悬停等待；必要等待超出总间隔时优先保证等待。");
         _pacingToolTip.SetToolTip(_fixedClickIntervalMs, "相邻点击的目标总间隔，单位毫秒。");
         _pacingToolTip.SetToolTip(_postClickDelayMs, "上一次点击完成后、鼠标开始移动前的等待，单位毫秒。");
         _pacingToolTip.SetToolTip(_hoverDelayMs, "鼠标移动到点击坐标后、执行点击前的等待，单位毫秒。");
 
-        root.Controls.Add(header, 0, 0);
-        root.Controls.Add(actions, 0, 1);
-        root.Controls.Add(settings, 0, 2);
-        root.Controls.Add(pacing, 0, 3);
-        Controls.Add(root);
-        UpdatePacingControls();
+        return pacing;
     }
 
-    private static Button MakeButton(string text, int width)
+    private Control BuildFooter()
+    {
+        var footer = new TableLayoutPanel
+        {
+            Dock = DockStyle.Fill,
+            ColumnCount = 2,
+            RowCount = 1,
+            Margin = Padding.Empty,
+            Padding = Padding.Empty,
+            BackColor = WindowSurface
+        };
+        footer.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+        footer.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 190));
+
+        footer.Controls.Add(new Label
+        {
+            Dock = DockStyle.Fill,
+            AutoSize = false,
+            Text = "固定间隔仅在“只录点击”模式下生效",
+            TextAlign = ContentAlignment.MiddleLeft,
+            Font = new Font("Microsoft YaHei UI", 8F),
+            ForeColor = SecondaryText,
+            Margin = Padding.Empty
+        }, 0, 0);
+        footer.Controls.Add(new Label
+        {
+            Dock = DockStyle.Fill,
+            AutoSize = false,
+            Text = "F10 播放 · F11 暂停 · F12 中止",
+            TextAlign = ContentAlignment.MiddleRight,
+            Font = new Font("Microsoft YaHei UI", 8F),
+            ForeColor = SecondaryText,
+            Margin = Padding.Empty
+        }, 1, 0);
+        return footer;
+    }
+
+    private static Label MakeInlineLabel(string text, int width, Color? color = null)
+    {
+        return new Label
+        {
+            Text = text,
+            AutoSize = false,
+            Width = width,
+            Height = 30,
+            TextAlign = ContentAlignment.MiddleLeft,
+            ForeColor = color ?? PrimaryText,
+            Margin = new Padding(1, 3, 2, 3)
+        };
+    }
+
+    private static Button MakeButton(string text, int width, int height = 28)
     {
         var button = new Button
         {
             Text = text,
             AutoSize = false,
             Width = width,
-            Height = 28,
+            Height = height,
             Margin = new Padding(2, 1, 2, 1),
             Padding = new Padding(4, 0, 4, 0)
         };
@@ -301,7 +489,7 @@ internal sealed class FloatingForm : Form
         return button;
     }
 
-    private static void StyleActionButton(Button button, Color backColor, Color foreColor)
+    private static void StyleActionButton(Button button, Color backColor, Color foreColor, Color? borderColor = null)
     {
         button.FlatStyle = FlatStyle.Flat;
         button.UseVisualStyleBackColor = false;
@@ -310,7 +498,7 @@ internal sealed class FloatingForm : Form
         button.Font = new Font("Microsoft YaHei UI", 8.5F, FontStyle.Regular);
         button.Cursor = Cursors.Hand;
         button.FlatAppearance.BorderSize = 1;
-        button.FlatAppearance.BorderColor = Color.FromArgb(226, 232, 240);
+        button.FlatAppearance.BorderColor = borderColor ?? WindowBorder;
     }
 
     private static void ConfigureDelayInput(NumericUpDown input, int defaultValue, Action<int> changed)
@@ -319,9 +507,9 @@ internal sealed class FloatingForm : Form
         input.Maximum = 60_000;
         input.Increment = 10;
         input.Value = defaultValue;
-        input.Width = 60;
-        input.Margin = new Padding(0, 2, 2, 0);
-        input.TextAlign = HorizontalAlignment.Right;
+        input.Width = 54;
+        input.Margin = new Padding(0, 8, 2, 0);
+        input.TextAlign = HorizontalAlignment.Center;
         input.ValueChanged += (_, _) => changed((int)input.Value);
     }
 
@@ -412,10 +600,28 @@ internal sealed class FloatingForm : Form
         _pauseButton.Text = playbackPaused ? "▶ 继续" : "Ⅱ 暂停";
         _stopButton.Enabled = playbackRunning;
 
-        _statusLabel.Text = recordingSessionActive
-            ? recordingPaused ? "录制已暂停" : recording ? "正在录制" : "录制中"
-            : playbackRunning ? playbackPaused ? "播放已暂停" : "正在播放"
-            : "就绪";
+        if (recordingSessionActive)
+        {
+            SetStatus(recordingPaused ? "录制暂停" : recording ? "正在录制" : "录制中",
+                Color.FromArgb(255, 235, 233), Color.FromArgb(170, 45, 37));
+        }
+        else if (playbackRunning)
+        {
+            SetStatus(playbackPaused ? "播放暂停" : "正在播放",
+                playbackPaused ? Color.FromArgb(255, 246, 220) : Color.FromArgb(222, 248, 235),
+                playbackPaused ? Color.FromArgb(139, 91, 10) : Color.FromArgb(20, 105, 76));
+        }
+        else
+        {
+            SetStatus("就绪", Color.FromArgb(237, 242, 247), Color.FromArgb(77, 91, 108));
+        }
+    }
+
+    private void SetStatus(string text, Color backColor, Color foreColor)
+    {
+        _statusLabel.Text = text;
+        _statusLabel.BackColor = backColor;
+        _statusLabel.ForeColor = foreColor;
     }
 
     public void CloseForExit()
