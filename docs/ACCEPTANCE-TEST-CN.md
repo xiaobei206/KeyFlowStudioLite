@@ -110,13 +110,24 @@
 
 | 用例 | 状态（本提交后） | 通过条件 |
 |---|---|---|
-| 连续点击 900 ms 间隔改为 400 ms | 自动化测试已添加，CI PENDING | 生成脚本包含点击后等待 50 ms、移动后等待 350 ms；不再含原始 900 ms Delay |
-| 保留点击 holdMs | 自动化测试已添加，CI PENDING | Down/Up 仍生成各自的 `LeftClick(65)`、`LeftClick(80)` |
-| 必要等待超出总间隔 | 自动化测试已添加，CI PENDING | 总间隔 100、点击后 60、悬停 80 时仍分别输出 60 和 80 ms |
-| 关闭固定间隔 | 自动化测试已添加，CI PENDING | 原始 900 ms 延时与旧生成顺序继续保留 |
-| 暂停预览和结束录制一致 | 代码路径已共用参数快照，待 CI/实机验收 | 两处均传递同一会话参数，过程中控件锁定 |
-| 设置持久化 | 已实现，待 CI/实机验收 | 关闭/重启后开关和三个数值可恢复 |
+| 连续点击 900 ms 间隔改为 400 ms | PASS（Release run 44733253454；10/10 tests） | 生成脚本包含点击后等待 50 ms、移动后等待 350 ms；不再含原始 900 ms Delay |
+| 保留点击 holdMs | PASS（Release run 44733253454；10/10 tests） | Down/Up 仍生成各自的 `LeftClick(65)`、`LeftClick(80)` |
+| 必要等待超出总间隔 | PASS（Release run 44733253454；10/10 tests） | 总间隔 100、点击后 60、悬停 80 时仍分别输出 60 和 80 ms |
+| 关闭固定间隔 | PASS（Release run 44733253454；10/10 tests） | 原始 900 ms 延时与旧生成顺序继续保留 |
+| 暂停预览和结束录制一致 | CI PASS（暂停预览与最终生成共用参数快照）；实际录制预览验收 NOT RUN | 两处均传递同一会话参数，过程中控件锁定 |
+| 设置持久化 | CI 构建 PASS；手动重启后设置持久化验收仍 NOT RUN | 关闭/重启后开关和三个数值可恢复 |
 | 浅色紧凑悬浮窗布局 | NOT RUN（Windows 实机） | 确认 520 × 140 布局不截字、不遮控件；常见 DPI 与多显示器可用 |
 | 悬浮菜单响应 | NOT RUN（目标软件实测） | 移动到菜单触发位置后可按悬停等待显示，并在目标菜单上点击 |
 
 Windows Actions PASS 不代表以上实机用例全部通过。没有证据的项目保持 NOT RUN。
+
+
+## v1.1.0 Release 验证记录
+
+- Release：[v1.1.0](https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.1.0)
+- 工作流：[44733253454](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/44733253454) — SUCCESS。
+- Release Build：0 warnings / 0 errors。
+- 测试：10 passed / 0 failed / 0 skipped。
+- Windows ZIP：51,915,111 bytes。
+- ZIP SHA256：`b8af447c184807ce59516e1a90e3dd0cf7ebbcc31414185a530b4c62b06fd207`。
+- 用户实机布局、DPI、多显示器、拖动、真实 Hook、悬停菜单和长时录制：NOT RUN。

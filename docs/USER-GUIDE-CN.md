@@ -1,4 +1,4 @@
-# KeyFlow Studio Lite 1.1.0 使用说明（开发版）
+# KeyFlow Studio Lite 1.1.0 使用说明
 
 ## 1. 脚本管理
 

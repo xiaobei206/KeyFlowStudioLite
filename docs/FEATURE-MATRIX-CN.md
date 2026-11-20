@@ -39,10 +39,13 @@
 
 | 功能 | 状态 | 验收说明 |
 |---|---|---|
-| 固定连续点击总间隔 | IMPLEMENTED / CI PENDING | 默认关闭；在只录点击模式下按配置的总间隔规范化连续点击 |
-| 点击后等待 | IMPLEMENTED / CI PENDING | 上一次点击结束后、下次移动前精确等待用户设置的毫秒数 |
-| 移动后悬停等待 | IMPLEMENTED / CI PENDING | 移动到点击坐标后至少等待配置值；该等待计入固定点击总间隔 |
-| 超出总间隔的必要等待 | IMPLEMENTED / CI PENDING | 不缩短点击后等待或悬停最低等待，允许实际间隔超过目标值 |
-| 关闭功能后的兼容性 | TEST ADDED / CI PENDING | 应保留原录制间隔及原有生成顺序 |
+| 固定连续点击总间隔 | PASS（Windows CI） | 默认关闭；在只录点击模式下按配置的总间隔规范化连续点击 |
+| 点击后等待 | PASS（Windows CI） | 上一次点击结束后、下次移动前精确等待用户设置的毫秒数 |
+| 移动后悬停等待 | PASS（Windows CI） | 移动到点击坐标后至少等待配置值；该等待计入固定点击总间隔 |
+| 超出总间隔的必要等待 | PASS（Windows CI） | 不缩短点击后等待或悬停最低等待，允许实际间隔超过目标值 |
+| 关闭功能后的兼容性 | PASS（10/10 测试通过） | 应保留原录制间隔及原有生成顺序 |
 | 浅色紧凑悬浮窗 | IMPLEMENTED / REAL-WORLD TEST PENDING | 目标尺寸 520 × 140；浅灰白底、无深色主题、大卡片或额外面板 |
 | 实机 DPI、拖动和菜单时序 | NOT RUN | 需要在 Windows 10/11 实机进行视觉与目标软件验收 |
+
+
+发布核验：v1.1.0 正式 Release 已发布，Windows Actions run [44733253454](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/44733253454) SUCCESS。自动化通过不代表悬浮窗视觉、DPI/拖动、真实 Hook 与目标软件菜单交互已实测；这些仍为 NOT RUN。
