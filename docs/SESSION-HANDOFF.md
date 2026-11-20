@@ -4,39 +4,40 @@
 - 产品：**KeyFlow Studio Lite**
 - 仓库：<https://github.com/xiaobei206/KeyFlowStudioLite>
 - 默认分支：`main`
-- 当前稳定版本：`1.0.1`
+- 当前稳定版：`1.0.1`
+- 开发目标版本：`1.1.0`
 - 平台：Windows 10/11 x64
 - 技术栈：WinForms、.NET 10、Lua 5.4、NLua/KeraLua
-- 解决方案：`KeyFlowStudioLite.sln`
-- 项目：`KeyFlow.App`、`KeyFlow.Core`、`KeyFlow.Core.Tests`
-- 应用程序集与 EXE：`KeyFlowStudioLite.exe`
+- 源码实现提交：`bf4987e6426e4ee9b15fd1eb9ca4dc474f709456`
+- 新会话开始时以 `main` 最新 HEAD 为准，并读取本文件与根目录 `AGENTS.md`。
 
-新会话只需读取仓库地址，再按根目录 `AGENTS.md` 指引读取本文件、路线图和相关技术文档；不要要求用户重复粘贴提示词。
+## 1.1.0 本轮目标
+增加一个轻量的固定点击节奏选项，并改善悬浮窗空间利用率。保持原始录制坐标、Down/Up 配对、点击 holdMs 和默认播放语义兼容。
 
-## 1.0.1 已完成
-1. 清理当前源码树中的旧项目目录、解决方案、项目名、命名空间、程序集、EXE、资源文件名、manifest 标识和 Worker IPC 前缀；统一为 KeyFlow。
-2. 悬浮窗客户区固定为 **500 × 124 px**（原 640 × 124 px）；压缩标题区、按钮和循环设置区，保留完整功能与实时 X/Y 坐标。
-3. 用户数据改用 `%LOCALAPPDATA%\\KeyFlowStudioLite`。首次启动把旧目录中目标目录尚不存在的文件复制到新目录；不覆盖新文件、不删除旧目录，保留回滚能力。
-4. `VERSION`、App ProductVersion、AssemblyVersion、FileVersion 与资产版本统一为 `1.0.1`。
-5. 更新 README、AGENTS、用户手册、路线图、功能矩阵、验收、决策和累计开发日志。
+### 已实现（等待 Windows CI 验证）
+- 悬浮窗改为约 520 × 140 的浅灰白色布局：四个紧凑横行，扁平浅色按钮，录制按钮淡红、播放按钮淡绿；没有深色皮肤或大型卡片区。
+- 新增“固定间隔”勾选框和三个毫秒输入项：总间隔默认 400 ms、点击后默认 50 ms、移动到目标后悬停默认 150 ms。数值范围 0–60000 ms。
+- 固定节奏只在勾选“只录点击”模式时生效；全鼠标轨迹录制与开关关闭时沿用原输出时间顺序。
+- 连续点击的延迟安排：前一次点击抬起后先等待设置的“点击后”时长，再移动到下个点击坐标；移动完成后等待 `max(悬停时长, 总间隔 - 点击后时长)`。因此目标总间隔为 400、点击后 50、悬停最低 150 时，点击间延迟为 50 + 350 = 400 ms；若两个必要等待合计超过总间隔，则保留必要等待，实际间隔可更长。
+- 第一次点击没有“上一次点击后等待”，但仍在移动到目标后应用悬停等待。
+- 配置保存在 `%LOCALAPPDATA%\\KeyFlowStudioLite\\settings.json`；录制会话开始时冻结设置，暂停预览与最终脚本使用同一参数快照。
+- 新增三个 Lua 生成回归测试：固定间隔分配、必要等待超过目标总间隔、关闭开关保留旧行为。
+- 测试项目改为 Windows TFM，并通过 friend assembly 访问录制器内部模型。
 
-## 兼容边界
-- Lua API、键鼠录制和播放语义保持 1.0.0 行为。
-- 源码仅保留一个旧用户数据目录标识，专门用于首次启动的兼容导入；不是当前产品名/项目名/程序集名。
-- 数据迁移逐文件复制并跳过已存在目标文件；不执行覆盖或删除。
-- CI 成功不等于用户机器已完成悬浮窗、真实 Hook、DPI/多屏、托盘和长时稳定性验收。
+## 验证状态
+- 源码实现提交：`bf4987e6426e4ee9b15fd1eb9ca4dc474f709456`
+- Windows Actions run：<https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/44732976826>
+- 当前状态：`QUEUED / PENDING`（尚未取得本轮 Build/Test/Package 结果，不得视为 PASS）。
+- 用户 Windows 实机验收：`NOT RUN`；当前没有截图或 DPI/拖动/托盘实测证据。
+- 稳定版 Release 仍为 [v1.0.1](https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.0.1)。通过验证后再正式发布 v1.1.0，并核实 ZIP 与 SHA256。
 
-## 1.0.1 构建与发布证据
-- 代码发布提交：`e21080bc917e5a287b53a30e3d96a8707437b3c3`
-- Windows Actions：[43729901294](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/43729901294)，结论 SUCCESS。
-- Restore、Release Build、Core tests、自包含 win-x64 publish、ZIP/SHA256、Artifact upload、GitHub Release：全部 PASS。
-- Release Build：0 warnings / 0 errors。
-- Core tests：7/7 PASS，0 failed，0 skipped。
-- 正式稳定 Release：<https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.0.1>（prerelease=false）。
-- ZIP：`KeyFlowStudioLite-1.0.1-win-x64.zip`，51,911,747 bytes。
-- ZIP SHA256：`19becd2a22f896126e6dfad39ef38ee6e7a755d006a6ea3e5911292efd12af42`。
-- SHA sidecar：`KeyFlowStudioLite-1.0.1-win-x64.zip.sha256`，已随 Release 上传。
-- 实机验收：悬浮窗 500 px 布局、数据迁移、真实 Hook、DPI/多屏、托盘和长时稳定性均为 `NOT RUN`。
+## 重要兼容规则
+- 不勾选固定间隔时，生成器保留旧版录制间隔行为。
+- 点击时长从鼠标 Down/Up 时间戳计算，绝不包含动作间隔或新增悬停等待。
+- 只把连续的录制点击动作规范化为固定总间隔；穿插键盘/滚轮等其他动作时，保留其记录时间差，不能把它们伪装成纯点击序列。
+- “点击后”是上一次点击结束后、开始移动前的精确等待；“悬停”是移动结束后、下一次点击前的最低等待。固定总间隔优先满足这两个设置。
+- 必须保持 `VERSION`、`KeyFlow.App.csproj` 的 ProductVersion/AssemblyVersion/FileVersion 一致。
+- Actions 通过不等于桌面实机验收通过。
 
 ## 下一会话唯一任务
-核对最新 `main` HEAD、`v1.0.1` Release 和 Actions 后，继续 M1 稳定性补强：审查录制暂停/恢复、停止与输入释放、Worker 崩溃/IPC 断开、托盘生命周期和设置持久化，补充可确定性复现的自动化回归测试。不要擅自扩成完整 IDE、OCR、插件或云服务。
+首先核对 Actions run `44732976826`。若失败，定位并修复构建/测试错误，保持版本 1.1.0，不创建重复版本；若通过，完成文档最终核对并触发 v1.1.0 正式 Release。发布后更新本交接，记录 Release URL、ZIP 大小、SHA256、测试数量与剩余 NOT RUN 实机验收项目。

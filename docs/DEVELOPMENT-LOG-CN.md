@@ -313,3 +313,25 @@ TV-01：Lua 5.4 / .NET 10 绑定与中断机制 PoC。
 - 正式 Release：<https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.0.1>，prerelease=false。
 - ZIP：`KeyFlowStudioLite-1.0.1-win-x64.zip`，51,911,747 bytes；SHA256：`19becd2a22f896126e6dfad39ef38ee6e7a755d006a6ea3e5911292efd12af42`。
 - Windows 10/11 实机悬浮窗布局、数据迁移、Hook、DPI/多屏、托盘验收：NOT RUN。
+
+
+## 2026-11-20 — 1.1.0 — 固定点击节奏与紧凑浅色悬浮窗（实现提交，等待 CI）
+
+### 用户需求与设计决定
+- 在悬浮窗增加固定点击间隔选项，解决录制中出现 900/1200 ms 等不希望保留的非固定点击空隙。
+- 同时提供总间隔、点击完成后开始移动前的等待、移动到目标后悬停等待三个毫秒值。
+- 三项等待采用组合预算：点击后等待固定为用户填写的数值；连续点击之间的移动后等待为 `max(悬停等待, 总间隔 - 点击后等待)`。如果点击后与悬停的必要等待已经超过总间隔，不压缩必要等待，允许实际间隔更长。
+- 固定节奏仅在勾选“只录点击”时启用；关闭固定节奏或录制完整鼠标轨迹时沿用旧生成顺序。
+- 悬浮窗定位为浅色、轻量、小幅增高的四行布局，目标尺寸 520 × 140 px；不采用深色主题或大型卡片。
+
+### 实现
+- 新增 settings 字段并设置兼容默认值：FixedClickInterval=false、FixedClickIntervalMilliseconds=400、PostClickDelayMilliseconds=50、HoverDelayMilliseconds=150。
+- 录制会话开始时复制节奏参数；暂停预览和最终 Lua 使用同一参数快照。
+- 延迟值限制在 0–60000 ms；点击 holdMs 仍仅来自 Down/Up 配对时间。
+- 新增 `RecorderTimingTests.cs` 三项回归测试，覆盖固定间隔、必要等待超额及开关关闭时的兼容行为。
+- 将测试项目目标框架调整为 `net10.0-windows` 并引用 App 项目，以直接验证 Lua 生成器。
+
+### Git / 验证
+- 实现提交：`bf4987e6426e4ee9b15fd1eb9ca4dc474f709456`
+- Actions：<https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/44732976826>，本记录追加时为 QUEUED/PENDING，最终结果待更新。
+- Windows 真机布局、DPI、真实 Hook、悬浮菜单和长时间录制：NOT RUN。
