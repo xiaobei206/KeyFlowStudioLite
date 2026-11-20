@@ -104,3 +104,19 @@
 - Core tests：7/7 PASS。
 - Self-contained win-x64 publish、ZIP/SHA256、Artifact upload、Release creation：PASS。
 - K01-K05 涉及 GUI 实际布局、数据迁移与用户目录操作，尚未在用户 Windows 实机执行，继续保持 NOT RUN。
+
+
+## 1.1.0 固定点击节奏回归
+
+| 用例 | 状态（本提交后） | 通过条件 |
+|---|---|---|
+| 连续点击 900 ms 间隔改为 400 ms | 自动化测试已添加，CI PENDING | 生成脚本包含点击后等待 50 ms、移动后等待 350 ms；不再含原始 900 ms Delay |
+| 保留点击 holdMs | 自动化测试已添加，CI PENDING | Down/Up 仍生成各自的 `LeftClick(65)`、`LeftClick(80)` |
+| 必要等待超出总间隔 | 自动化测试已添加，CI PENDING | 总间隔 100、点击后 60、悬停 80 时仍分别输出 60 和 80 ms |
+| 关闭固定间隔 | 自动化测试已添加，CI PENDING | 原始 900 ms 延时与旧生成顺序继续保留 |
+| 暂停预览和结束录制一致 | 代码路径已共用参数快照，待 CI/实机验收 | 两处均传递同一会话参数，过程中控件锁定 |
+| 设置持久化 | 已实现，待 CI/实机验收 | 关闭/重启后开关和三个数值可恢复 |
+| 浅色紧凑悬浮窗布局 | NOT RUN（Windows 实机） | 确认 520 × 140 布局不截字、不遮控件；常见 DPI 与多显示器可用 |
+| 悬浮菜单响应 | NOT RUN（目标软件实测） | 移动到菜单触发位置后可按悬停等待显示，并在目标菜单上点击 |
+
+Windows Actions PASS 不代表以上实机用例全部通过。没有证据的项目保持 NOT RUN。
