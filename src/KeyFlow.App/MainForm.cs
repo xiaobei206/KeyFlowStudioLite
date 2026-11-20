@@ -28,6 +28,14 @@ internal sealed class MainForm : Form
     private bool _recordSessionActive;
     private bool _recordingPaused;
     private bool _clickOnlyForSession;
+    private bool _fixedClickInterval;
+    private int _fixedClickIntervalMs = 400;
+    private int _postClickDelayMs = 50;
+    private int _hoverDelayMs = 150;
+    private bool _fixedClickIntervalForSession;
+    private int _fixedClickIntervalMsForSession;
+    private int _postClickDelayMsForSession;
+    private int _hoverDelayMsForSession;
     private bool _loadingSettings;
     private GlobalHotkeyManager? _hotkeyManager;
     private ScriptEntry? _current;
@@ -327,12 +335,33 @@ internal sealed class MainForm : Form
         {
             if (_clickOnlyCheck.Checked != value) _clickOnlyCheck.Checked = value;
         };
+        _floating.FixedClickIntervalChanged += value =>
+        {
+            _fixedClickInterval = value;
+            SaveSettings();
+        };
+        _floating.FixedClickIntervalMillisecondsChanged += value =>
+        {
+            _fixedClickIntervalMs = value;
+            SaveSettings();
+        };
+        _floating.PostClickDelayMillisecondsChanged += value =>
+        {
+            _postClickDelayMs = value;
+            SaveSettings();
+        };
+        _floating.HoverDelayMillisecondsChanged += value =>
+        {
+            _hoverDelayMs = value;
+            SaveSettings();
+        };
         _floating.AlwaysOnTopChanged += value =>
         {
             if (_alwaysOnTopCheck.Checked != value) _alwaysOnTopCheck.Checked = value;
         };
         _floating.SetSettings((int)_repeatCount.Value, (int)_repeatInterval.Value,
-            _clickOnlyCheck.Checked, _alwaysOnTopCheck.Checked);
+            _clickOnlyCheck.Checked, _fixedClickInterval, _fixedClickIntervalMs,
+            _postClickDelayMs, _hoverDelayMs, _alwaysOnTopCheck.Checked);
 
         var trayMenu = new ContextMenuStrip();
         trayMenu.Items.Add("打开主窗口", null, (_, _) => ShowMainWindow());
@@ -408,6 +437,10 @@ internal sealed class MainForm : Form
         _repeatCount.Value = Math.Clamp(settings.RepeatCount, (int)_repeatCount.Minimum, (int)_repeatCount.Maximum);
         _repeatInterval.Value = Math.Clamp(settings.IntervalMilliseconds, (int)_repeatInterval.Minimum, (int)_repeatInterval.Maximum);
         _clickOnlyCheck.Checked = settings.ClickOnlyRecording;
+        _fixedClickInterval = settings.FixedClickInterval;
+        _fixedClickIntervalMs = Math.Clamp(settings.FixedClickIntervalMilliseconds, 0, 60_000);
+        _postClickDelayMs = Math.Clamp(settings.PostClickDelayMilliseconds, 0, 60_000);
+        _hoverDelayMs = Math.Clamp(settings.HoverDelayMilliseconds, 0, 60_000);
         _alwaysOnTopCheck.Checked = settings.AlwaysOnTop;
         _loadingSettings = false;
     }
@@ -422,6 +455,10 @@ internal sealed class MainForm : Form
                 RepeatCount = (int)_repeatCount.Value,
                 IntervalMilliseconds = (int)_repeatInterval.Value,
                 ClickOnlyRecording = _clickOnlyCheck.Checked,
+                FixedClickInterval = _fixedClickInterval,
+                FixedClickIntervalMilliseconds = _fixedClickIntervalMs,
+                PostClickDelayMilliseconds = _postClickDelayMs,
+                HoverDelayMilliseconds = _hoverDelayMs,
                 AlwaysOnTop = _alwaysOnTopCheck.Checked
             });
         }
@@ -599,6 +636,10 @@ internal sealed class MainForm : Form
             _dirty = true;
             _loading = false;
             _clickOnlyForSession = _clickOnlyCheck.Checked;
+            _fixedClickIntervalForSession = _fixedClickInterval;
+            _fixedClickIntervalMsForSession = _fixedClickIntervalMs;
+            _postClickDelayMsForSession = _postClickDelayMs;
+            _hoverDelayMsForSession = _hoverDelayMs;
             _recorder.Start(_clickOnlyForSession);
             _recordSessionActive = true;
             _recording = true;
@@ -657,7 +698,9 @@ internal sealed class MainForm : Form
     private void UpdateRecordingPreview()
     {
         _loading = true;
-        _editor.Text = GlobalRecorder.GenerateLua(_recorder.GetEventsSnapshot(), _clickOnlyForSession);
+        _editor.Text = GlobalRecorder.GenerateLua(_recorder.GetEventsSnapshot(), _clickOnlyForSession,
+            _fixedClickIntervalForSession, _fixedClickIntervalMsForSession,
+            _postClickDelayMsForSession, _hoverDelayMsForSession);
         _loading = false;
         _dirty = true;
     }
@@ -670,7 +713,9 @@ internal sealed class MainForm : Form
             var events = _recorder.Stop();
             _loading = true;
             _editor.ReadOnly = false;
-            _editor.Text = GlobalRecorder.GenerateLua(events, _clickOnlyForSession);
+            _editor.Text = GlobalRecorder.GenerateLua(events, _clickOnlyForSession,
+                _fixedClickIntervalForSession, _fixedClickIntervalMsForSession,
+                _postClickDelayMsForSession, _hoverDelayMsForSession);
             _dirty = true;
             _loading = false;
             _recordSessionActive = false;

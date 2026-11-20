@@ -224,21 +224,37 @@ internal sealed class GlobalRecorder : IDisposable
             Overflowed = true;
     }
 
-    public static string GenerateLua(IReadOnlyList<RecordedInputEvent> events, bool clickOnly = false)
+    public static string GenerateLua(
+        IReadOnlyList<RecordedInputEvent> events,
+        bool clickOnly = false,
+        bool fixedClickInterval = false,
+        int fixedClickIntervalMs = 400,
+        int postClickDelayMs = 50,
+        int hoverDelayMs = 150)
     {
+        fixedClickIntervalMs = Math.Clamp(fixedClickIntervalMs, 0, 60_000);
+        postClickDelayMs = Math.Clamp(postClickDelayMs, 0, 60_000);
+        hoverDelayMs = Math.Clamp(hoverDelayMs, 0, 60_000);
+
         var output = new System.Text.StringBuilder();
         output.AppendLine("-- KeyFlow Studio Lite 自动录制脚本");
         output.AppendLine("-- 鼠标移动已合并；时间单位：毫秒");
+        if (fixedClickInterval && clickOnly)
+            output.AppendLine($"-- 固定点击节奏：总间隔 {fixedClickIntervalMs} ms；点击后 {postClickDelayMs} ms；移动后悬停 {hoverDelayMs} ms");
         long lastEnd = events.Count > 0 ? events[0].Timestamp : 0;
         var index = 0;
+        var previousActionWasClick = false;
+
         while (index < events.Count)
         {
             var current = events[index];
             var endTime = current.Timestamp;
             var consumed = 1;
+            var paired = index + 1 < events.Count && IsPaired(current, events[index + 1]);
+            var isMouseClick = paired && current.Kind == RecordedEventKind.MouseDown && IsMouseButton(current.Name);
             string statement;
 
-            if (index + 1 < events.Count && IsPaired(current, events[index + 1]))
+            if (paired)
             {
                 var release = events[index + 1];
                 var holdMs = Math.Max(0, (int)Math.Round((release.Timestamp - current.Timestamp) * 1000.0 / Stopwatch.Frequency));
@@ -266,21 +282,56 @@ internal sealed class GlobalRecorder : IDisposable
                 ? Math.Max(0, (int)Math.Round((current.Timestamp - lastEnd) * 1000.0 / Stopwatch.Frequency))
                 : 0;
             var needsPosition = current.Kind is RecordedEventKind.MouseDown or RecordedEventKind.Wheel;
-            // In click-only mode, move to the exact click point first, then wait the recorded gap,
-            // then click. This removes shaky human cursor paths without losing action timing.
-            if (clickOnly && needsPosition)
+            var useClickPacing = fixedClickInterval && clickOnly && isMouseClick;
+
+            if (useClickPacing)
+            {
+                // Keep the configured post-click wait exactly as entered; the remaining interval
+                // is spent hovering at the next target. If the two minimum waits exceed the target,
+                // both minimums win and the real interval is allowed to be longer.
+                if (previousActionWasClick)
+                {
+                    if (postClickDelayMs > 0)
+                        output.Append("Delay(").Append(postClickDelayMs).AppendLine(")");
+                }
+                else if (index > 0 && gapMs > 0)
+                {
+                    // Do not discard time between a non-click action and this click.
+                    output.Append("Delay(").Append(gapMs).AppendLine(")");
+                }
+
                 output.Append("MoveTo(").Append(current.X).Append(", ").Append(current.Y).AppendLine(")");
-            if (gapMs > 0) output.Append("Delay(").Append(gapMs).AppendLine(")");
-            if (!clickOnly && needsPosition)
-                output.Append("MoveTo(").Append(current.X).Append(", ").Append(current.Y).AppendLine(")");
-            if (!string.IsNullOrWhiteSpace(statement))
-                output.AppendLine(statement);
+                var waitAfterMoveMs = hoverDelayMs;
+                if (previousActionWasClick)
+                    waitAfterMoveMs = Math.Max(hoverDelayMs, fixedClickIntervalMs - postClickDelayMs);
+                if (waitAfterMoveMs > 0)
+                    output.Append("Delay(").Append(waitAfterMoveMs).AppendLine(")");
+                if (!string.IsNullOrWhiteSpace(statement))
+                    output.AppendLine(statement);
+            }
+            else
+            {
+                // Unchecked mode intentionally keeps the legacy timing and output order.
+                if (clickOnly && needsPosition)
+                    output.Append("MoveTo(").Append(current.X).Append(", ").Append(current.Y).AppendLine(")");
+                if (gapMs > 0)
+                    output.Append("Delay(").Append(gapMs).AppendLine(")");
+                if (!clickOnly && needsPosition)
+                    output.Append("MoveTo(").Append(current.X).Append(", ").Append(current.Y).AppendLine(")");
+                if (!string.IsNullOrWhiteSpace(statement))
+                    output.AppendLine(statement);
+            }
 
             lastEnd = endTime;
+            previousActionWasClick = isMouseClick;
             index += consumed;
         }
+
         return output.ToString();
     }
+
+    private static bool IsMouseButton(string? name) =>
+        name is "left" or "right" or "middle";
 
     private static bool IsPaired(RecordedInputEvent down, RecordedInputEvent up) =>
         (down.Kind == RecordedEventKind.MouseDown && up.Kind == RecordedEventKind.MouseUp ||
