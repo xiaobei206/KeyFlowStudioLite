@@ -6,14 +6,13 @@
 
 ## 当前状态
 
-- 当前稳定版本：**1.0.1**
-- 开发中版本：**1.1.0**（固定点击节奏、点击后/悬停等待与浅色紧凑悬浮窗；Windows CI 验证中）
+- 当前稳定版本：**1.1.0**（2026-11-20 正式发布）
 - 技术栈：WinForms + .NET 10 + Lua 5.4（NLua/KeraLua）
 - 平台：Windows 10/11 x64
 - 默认分支：`main`
-- 稳定版 Release：<https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.0.1>
-- Windows ZIP：`KeyFlowStudioLite-1.0.1-win-x64.zip`（51,911,747 bytes）
-- SHA256：`19becd2a22f896126e6dfad39ef38ee6e7a755d006a6ea3e5911292efd12af42`
+- 稳定版 Release：<https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.1.0>
+- Windows ZIP：`KeyFlowStudioLite-1.1.0-win-x64.zip`（51,915,111 bytes）
+- SHA256：`b8af447c184807ce59516e1a90e3dd0cf7ebbcc31414185a530b4c62b06fd207`
 - Windows Actions：[43729901294](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/43729901294) SUCCESS；7/7 tests，0 warnings/errors，自包含发布与 ZIP/SHA 校验通过。
 - 下载入口：<https://github.com/xiaobei206/KeyFlowStudioLite/releases/latest>
 - 项目交接：[`docs/SESSION-HANDOFF.md`](docs/SESSION-HANDOFF.md)
@@ -21,7 +20,7 @@
 
 ## 下载与运行
 
-从 [Releases](https://github.com/xiaobei206/KeyFlowStudioLite/releases) 下载 `KeyFlowStudioLite-1.0.1-win-x64.zip` 和同目录的 `.sha256` 文件。先校验 SHA256，再完整解压并运行 `KeyFlowStudioLite.exe`。不要单独提取 EXE；Worker、Lua 和 .NET 运行时伴随文件必须完整保留。
+从 [Releases](https://github.com/xiaobei206/KeyFlowStudioLite/releases) 下载 `KeyFlowStudioLite-1.1.0-win-x64.zip` 和同目录的 `.sha256` 文件。先校验 SHA256，再完整解压并运行 `KeyFlowStudioLite.exe`。不要单独提取 EXE；Worker、Lua 和 .NET 运行时伴随文件必须完整保留。
 
 ## 功能范围
 

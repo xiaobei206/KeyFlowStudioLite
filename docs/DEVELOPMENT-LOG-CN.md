@@ -335,3 +335,15 @@ TV-01：Lua 5.4 / .NET 10 绑定与中断机制 PoC。
 - 实现提交：`bf4987e6426e4ee9b15fd1eb9ca4dc474f709456`
 - Actions：<https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/44732976826>，本记录追加时为 QUEUED/PENDING，最终结果待更新。
 - Windows 真机布局、DPI、真实 Hook、悬浮菜单和长时间录制：NOT RUN。
+
+
+### 1.1.0 发布后验证补记（2026-11-20）
+
+- 正式 Release：[v1.1.0](https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.1.0)，`prerelease=false`。
+- 发布提交：`84bd6b80746c43e1022d635eeccac535f6f1de50`。
+- Release Actions：[44733253454](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/44733253454)，SUCCESS。
+- Restore、Build、Test、自包含发布、打包、SHA256、Artifact 上传和 Release 创建全部 PASS；Release Build 0 warnings / 0 errors。
+- 测试：10 passed / 0 failed / 0 skipped；新增录制时序回归测试 3 项。
+- ZIP：`KeyFlowStudioLite-1.1.0-win-x64.zip`，51,915,111 bytes。
+- ZIP SHA256：`b8af447c184807ce59516e1a90e3dd0cf7ebbcc31414185a530b4c62b06fd207`；sidecar 随 Release 一同上传。
+- 用户 Windows 实机视觉与目标软件验收仍为 NOT RUN；CI 通过不能替代 DPI、拖动、真实 Hook、菜单悬停和长时稳定性验收。
