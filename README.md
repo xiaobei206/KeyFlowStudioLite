@@ -13,7 +13,7 @@
 - 稳定版 Release：<https://github.com/xiaobei206/KeyFlowStudioLite/releases/tag/v1.1.0>
 - Windows ZIP：`KeyFlowStudioLite-1.1.0-win-x64.zip`（51,915,111 bytes）
 - SHA256：`b8af447c184807ce59516e1a90e3dd0cf7ebbcc31414185a530b4c62b06fd207`
-- Windows Actions：[43729901294](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/43729901294) SUCCESS；7/7 tests，0 warnings/errors，自包含发布与 ZIP/SHA 校验通过。
+- Windows Actions：[44733253454](https://github.com/xiaobei206/KeyFlowStudioLite/actions/runs/44733253454) SUCCESS；10/10 tests，0 warnings/errors，自包含发布与 ZIP/SHA 校验通过。
 - 下载入口：<https://github.com/xiaobei206/KeyFlowStudioLite/releases/latest>
 - 项目交接：[`docs/SESSION-HANDOFF.md`](docs/SESSION-HANDOFF.md)
 - 自动化开发规则：[`AGENTS.md`](AGENTS.md)

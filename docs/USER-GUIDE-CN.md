@@ -2,7 +2,7 @@
 
 ## 1. 脚本管理
 
-脚本默认保存在当前 Windows 用户的 %LOCALAPPDATA%\Anjian2026\Scripts。
+脚本默认保存在当前 Windows 用户的 `%LOCALAPPDATA%\KeyFlowStudioLite\Scripts`。
 
 左侧列表支持新建、打开、重命名、复制和删除；右键脚本可打开菜单。编辑器支持普通文本编辑，按 Ctrl+S 保存。录制会自动创建一个新脚本，不会覆盖当前已有脚本。
 
